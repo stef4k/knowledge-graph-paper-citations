@@ -76,7 +76,7 @@ ns1:is_assigned_by a rdf:Property ;
 ns1:is_corresponding_author a rdf:Property ;
     rdfs:domain ns1:Paper ;
     rdfs:range ns1:Author ;
-    rdfs:subPropertyOf ns1:iswritten .
+    rdfs:subPropertyOf ns1:is_written .
 
 ns1:is_edition_of a rdf:Property ;
     rdfs:domain ns1:ConferenceEdition,
@@ -92,9 +92,13 @@ ns1:of_year a rdf:Property ;
     rdfs:domain ns1:JournalVolume ;
     rdfs:range ns1:Year .
 
-ns1:organizes a rdf:Property ;
+ns1:organizes_conference a rdf:Property ;
     rdfs:domain ns1:ConferenceChair ;
     rdfs:range ns1:Conference .
+
+ns1:organizes_workshop a rdf:Property ;
+    rdfs:domain ns1:ConferenceChair ;
+    rdfs:range ns1:Workshop .
 
 ns1:presentedAt a rdf:Property ;
     rdfs:domain ns1:Paper ;
@@ -108,7 +112,7 @@ ns1:review_written_by a rdf:Property ;
     rdfs:domain ns1:Review ;
     rdfs:range ns1:Reviewer .
 
-ns1:iswritten a rdf:Property ;
+ns1:is_written a rdf:Property ;
     rdfs:domain ns1:Paper ;
     rdfs:range ns1:Author .
 

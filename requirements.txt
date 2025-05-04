@@ -2,3 +2,4 @@ rdflib
 pydotplus
 IPython
 graphviz
+matplotlib
