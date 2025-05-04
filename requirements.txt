@@ -1,0 +1,4 @@
+rdflib
+pydotplus
+IPython
+graphviz

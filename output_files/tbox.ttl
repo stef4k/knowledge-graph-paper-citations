@@ -1,0 +1,114 @@
+@prefix ns1: <http://dbpedia.org/ontology/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ns1:Author a rdfs:Class ;
+    rdfs:subClassOf ns1:Person .
+
+ns1:City a rdfs:Class .
+
+ns1:Conference a rdfs:Class .
+
+ns1:ConferenceChair a rdfs:Class ;
+    rdfs:subClassOf ns1:Coordinator .
+
+ns1:ConferenceEdition a rdfs:Class ;
+    rdfs:subClassOf ns1:EventEdition .
+
+ns1:Coordinator a rdfs:Class ;
+    rdfs:subClassOf ns1:Person .
+
+ns1:EventEdition a rdfs:Class .
+
+ns1:Journal a rdfs:Class .
+
+ns1:JournalEditor a rdfs:Class ;
+    rdfs:subClassOf ns1:Coordinator .
+
+ns1:JournalVolume a rdfs:Class .
+
+ns1:Keyword a rdfs:Class .
+
+ns1:Paper a rdfs:Class .
+
+ns1:Person a rdfs:Class .
+
+ns1:Review a rdfs:Class .
+
+ns1:Reviewer a rdfs:Class ;
+    rdfs:subClassOf ns1:Author .
+
+ns1:Workshop a rdfs:Class .
+
+ns1:WorkshopEdition a rdfs:Class ;
+    rdfs:subClassOf ns1:EventEdition .
+
+ns1:Year a rdfs:Class .
+
+ns1:cites a rdf:Property ;
+    rdfs:domain ns1:Paper ;
+    rdfs:range ns1:Paper .
+
+ns1:corresponds_to_paper a rdf:Property ;
+    rdfs:domain ns1:Review ;
+    rdfs:range ns1:Paper .
+
+ns1:edits a rdf:Property ;
+    rdfs:domain ns1:JournalEditor ;
+    rdfs:range ns1:Journal .
+
+ns1:held_in_city a rdf:Property ;
+    rdfs:domain ns1:EventEdition ;
+    rdfs:range ns1:City .
+
+ns1:held_in_year a rdf:Property ;
+    rdfs:domain ns1:EventEdition ;
+    rdfs:range ns1:Year .
+
+ns1:is_about a rdf:Property ;
+    rdfs:domain ns1:Paper ;
+    rdfs:range ns1:Keyword .
+
+ns1:is_assigned_by a rdf:Property ;
+    rdfs:domain ns1:Review ;
+    rdfs:range ns1:Coordinator .
+
+ns1:is_corresponding_author a rdf:Property ;
+    rdfs:domain ns1:Paper ;
+    rdfs:range ns1:Author ;
+    rdfs:subPropertyOf ns1:iswritten .
+
+ns1:is_edition_of a rdf:Property ;
+    rdfs:domain ns1:ConferenceEdition,
+        ns1:WorkshopEdition ;
+    rdfs:range ns1:Conference,
+        ns1:Workshop .
+
+ns1:is_volume_of a rdf:Property ;
+    rdfs:domain ns1:JournalVolume ;
+    rdfs:range ns1:Journal .
+
+ns1:of_year a rdf:Property ;
+    rdfs:domain ns1:JournalVolume ;
+    rdfs:range ns1:Year .
+
+ns1:organizes a rdf:Property ;
+    rdfs:domain ns1:ConferenceChair ;
+    rdfs:range ns1:Conference .
+
+ns1:presentedAt a rdf:Property ;
+    rdfs:domain ns1:Paper ;
+    rdfs:range ns1:EventEdition .
+
+ns1:published_in a rdf:Property ;
+    rdfs:domain ns1:Paper ;
+    rdfs:range ns1:JournalVolume .
+
+ns1:review_written_by a rdf:Property ;
+    rdfs:domain ns1:Review ;
+    rdfs:range ns1:Reviewer .
+
+ns1:iswritten a rdf:Property ;
+    rdfs:domain ns1:Paper ;
+    rdfs:range ns1:Author .
+
