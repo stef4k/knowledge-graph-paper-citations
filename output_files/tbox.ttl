@@ -78,11 +78,13 @@ ns1:is_corresponding_author a rdf:Property ;
     rdfs:range ns1:Author ;
     rdfs:subPropertyOf ns1:is_written .
 
-ns1:is_edition_of a rdf:Property ;
-    rdfs:domain ns1:ConferenceEdition,
-        ns1:WorkshopEdition ;
-    rdfs:range ns1:Conference,
-        ns1:Workshop .
+ns1:is_edition_of_conf a rdf:Property ;
+    rdfs:domain ns1:ConferenceEdition ;
+    rdfs:range ns1:Conference .
+
+ns1:is_edition_of_workshop a rdf:Property ;
+    rdfs:domain ns1:WorkshopEdition ;
+    rdfs:range ns1:Workshop .
 
 ns1:is_volume_of a rdf:Property ;
     rdfs:domain ns1:JournalVolume ;
