@@ -1,0 +1,120 @@
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+dbo:Author a rdfs:Class ;
+    rdfs:subClassOf dbo:Person .
+
+dbo:City a rdfs:Class .
+
+dbo:Conference a rdfs:Class .
+
+dbo:ConferenceChair a rdfs:Class ;
+    rdfs:subClassOf dbo:Coordinator .
+
+dbo:ConferenceEdition a rdfs:Class ;
+    rdfs:subClassOf dbo:EventEdition .
+
+dbo:Coordinator a rdfs:Class ;
+    rdfs:subClassOf dbo:Person .
+
+dbo:EventEdition a rdfs:Class .
+
+dbo:Journal a rdfs:Class .
+
+dbo:JournalEditor a rdfs:Class ;
+    rdfs:subClassOf dbo:Coordinator .
+
+dbo:JournalVolume a rdfs:Class .
+
+dbo:Keyword a rdfs:Class .
+
+dbo:Paper a rdfs:Class .
+
+dbo:Person a rdfs:Class .
+
+dbo:Review a rdfs:Class .
+
+dbo:Reviewer a rdfs:Class ;
+    rdfs:subClassOf dbo:Author .
+
+dbo:Workshop a rdfs:Class .
+
+dbo:WorkshopEdition a rdfs:Class ;
+    rdfs:subClassOf dbo:EventEdition .
+
+dbo:Year a rdfs:Class .
+
+dbo:cites a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:Paper .
+
+dbo:corresponds_to_paper a rdf:Property ;
+    rdfs:domain dbo:Review ;
+    rdfs:range dbo:Paper .
+
+dbo:edits a rdf:Property ;
+    rdfs:domain dbo:JournalEditor ;
+    rdfs:range dbo:Journal .
+
+dbo:held_in_city a rdf:Property ;
+    rdfs:domain dbo:EventEdition ;
+    rdfs:range dbo:City .
+
+dbo:held_in_year a rdf:Property ;
+    rdfs:domain dbo:EventEdition ;
+    rdfs:range dbo:Year .
+
+dbo:is_about a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:Keyword .
+
+dbo:is_assigned_by a rdf:Property ;
+    rdfs:domain dbo:Review ;
+    rdfs:range dbo:Coordinator .
+
+dbo:is_corresponding_author a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:Author ;
+    rdfs:subPropertyOf dbo:is_written .
+
+dbo:is_edition_of_conf a rdf:Property ;
+    rdfs:domain dbo:ConferenceEdition ;
+    rdfs:range dbo:Conference .
+
+dbo:is_edition_of_workshop a rdf:Property ;
+    rdfs:domain dbo:WorkshopEdition ;
+    rdfs:range dbo:Workshop .
+
+dbo:is_volume_of a rdf:Property ;
+    rdfs:domain dbo:JournalVolume ;
+    rdfs:range dbo:Journal .
+
+dbo:of_year a rdf:Property ;
+    rdfs:domain dbo:JournalVolume ;
+    rdfs:range dbo:Year .
+
+dbo:organizes_conference a rdf:Property ;
+    rdfs:domain dbo:ConferenceChair ;
+    rdfs:range dbo:Conference .
+
+dbo:organizes_workshop a rdf:Property ;
+    rdfs:domain dbo:ConferenceChair ;
+    rdfs:range dbo:Workshop .
+
+dbo:presentedAt a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:EventEdition .
+
+dbo:published_in a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:JournalVolume .
+
+dbo:review_written_by a rdf:Property ;
+    rdfs:domain dbo:Review ;
+    rdfs:range dbo:Reviewer .
+
+dbo:is_written a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:Author .
+

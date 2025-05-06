@@ -1,0 +1,175 @@
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+dbo:Author a rdfs:Class ;
+    rdfs:subClassOf dbo:Person .
+
+dbo:City a rdfs:Class .
+
+dbo:Conference a rdfs:Class .
+
+dbo:ConferenceChair a rdfs:Class ;
+    rdfs:subClassOf dbo:Coordinator .
+
+dbo:ConferenceEdition a rdfs:Class ;
+    rdfs:subClassOf dbo:EventEdition .
+
+dbo:Coordinator a rdfs:Class ;
+    rdfs:subClassOf dbo:Person .
+
+dbo:EventEdition a rdfs:Class .
+
+dbo:Journal a rdfs:Class .
+
+dbo:JournalEditor a rdfs:Class ;
+    rdfs:subClassOf dbo:Coordinator .
+
+dbo:JournalVolume a rdfs:Class .
+
+dbo:Keyword a rdfs:Class .
+
+dbo:Paper a rdfs:Class .
+
+dbo:Person a rdfs:Class .
+
+dbo:Review a rdfs:Class .
+
+dbo:Reviewer a rdfs:Class ;
+    rdfs:subClassOf dbo:Author .
+
+dbo:Workshop a rdfs:Class .
+
+dbo:WorkshopEdition a rdfs:Class ;
+    rdfs:subClassOf dbo:EventEdition .
+
+dbo:Year a rdfs:Class .
+
+dbo:cites a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:Paper .
+
+dbo:corresponds_to_paper a rdf:Property ;
+    rdfs:domain dbo:Review ;
+    rdfs:range dbo:Paper .
+
+dbo:edits a rdf:Property ;
+    rdfs:domain dbo:JournalEditor ;
+    rdfs:range dbo:Journal .
+
+dbo:held_in_city a rdf:Property ;
+    rdfs:domain dbo:EventEdition ;
+    rdfs:range dbo:City .
+
+dbo:held_in_year a rdf:Property ;
+    rdfs:domain dbo:EventEdition ;
+    rdfs:range dbo:Year .
+
+dbo:is_about a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:Keyword .
+
+dbo:is_assigned_by a rdf:Property ;
+    rdfs:domain dbo:Review ;
+    rdfs:range dbo:Coordinator .
+
+dbo:is_corresponding_author a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:Author ;
+    rdfs:subPropertyOf dbo:is_written .
+
+dbo:is_edition_of_conf a rdf:Property ;
+    rdfs:domain dbo:ConferenceEdition ;
+    rdfs:range dbo:Conference .
+
+dbo:is_edition_of_workshop a rdf:Property ;
+    rdfs:domain dbo:WorkshopEdition ;
+    rdfs:range dbo:Workshop .
+
+dbo:is_volume_of a rdf:Property ;
+    rdfs:domain dbo:JournalVolume ;
+    rdfs:range dbo:Journal .
+
+dbo:of_year a rdf:Property ;
+    rdfs:domain dbo:JournalVolume ;
+    rdfs:range dbo:Year .
+
+dbo:organizes_conference a rdf:Property ;
+    rdfs:domain dbo:ConferenceChair ;
+    rdfs:range dbo:Conference .
+
+dbo:organizes_workshop a rdf:Property ;
+    rdfs:domain dbo:ConferenceChair ;
+    rdfs:range dbo:Workshop .
+
+dbo:presentedAt a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:EventEdition .
+
+dbo:published_in a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:JournalVolume .
+
+dbo:review_written_by a rdf:Property ;
+    rdfs:domain dbo:Review ;
+    rdfs:range dbo:Reviewer .
+
+dbr:06214a0cf38875da38586e81539890f7ad8aeb1c dbo:is_about dbr:dataprocessing .
+
+dbr:0c7e1338a9c7914a3b9a5bdc42b457b3f272160e dbo:published_in <http://dbpedia.org/resource/ArXiv_vol_abs/1811.00855> .
+
+dbr:5c27487c3e0894b65e976a287e6f8c9aa40f089c dbo:published_in dbr:ProceedingsofInternationalConferenceonImageProcessing_vol_1 .
+
+dbr:5d1bfeed240709725c78bc72ea40e55410b373dc dbo:published_in <http://dbpedia.org/resource/ArXiv_vol_abs/1509.09292> .
+
+dbr:6017e81c5ede6c38b306a3df9738aeb04baa7619 dbo:published_in <http://dbpedia.org/resource/ArXiv_vol_abs/1809.05679> .
+
+dbr:6b7d6e6416343b2a122f8416e69059ce919026ef dbo:is_about dbr:NLP .
+
+dbr:a0edb93b-1e95-4128-a295-6b1659149cef_edition_2014 dbo:held_in_city dbr:Oslo ;
+    dbo:held_in_year dbr:2014 .
+
+dbr:a0edb93b-1e95-4128-a295-6b1659149cef_edition_2018 dbo:held_in_city dbr:Padova ;
+    dbo:held_in_year dbr:2018 .
+
+dbr:abf805ce186d86e900c704c6920da89e590aa854 dbo:published_in dbr:Bioinformatics_vol_2214 .
+
+dbr:b94c7ff9532ab26c3aedbee3988ec4c7a237c173 dbo:cites dbr:04f3c32e51df9f93163cc424b8eb40d82ebf82f1,
+        dbr:20331628c5cadfa9fa6360e8bdd59b52fde0dcf3,
+        dbr:4284560b51240cd1d2ee5f97615cc7f910577903,
+        dbr:4b3dbc36ae4d8171f9a4179001e37299554f1652,
+        dbr:76f3b19858a14778322efb97dca16b80ddc65879 ;
+    dbo:is_about dbr:computervision,
+        dbr:dataquerying .
+
+dbr:bdc2e585-4e48-4e36-8af1-6d859763d405_edition_2018 dbo:held_in_city dbr:Bucharest ;
+    dbo:held_in_year dbr:2018 .
+
+dbr:d9720b90-d60b-48bc-9df8-87a30b9a60dd_edition_2001 dbo:held_in_city dbr:Paris ;
+    dbo:held_in_year dbr:2001 .
+
+dbr:d9720b90-d60b-48bc-9df8-87a30b9a60dd_edition_2017 dbo:held_in_city dbr:Berlin ;
+    dbo:held_in_year dbr:2017 .
+
+dbr:fff114cbba4f3ba900f33da574283e3de7f26c83 dbo:is_about dbr:NLP .
+
+dbo:is_written a rdf:Property ;
+    rdfs:domain dbo:Paper ;
+    rdfs:range dbo:Author .
+
+<http://dbpedia.org/resource/ArXiv_vol_abs/1509.09292> dbo:is_volume_of dbr:ArXiv ;
+    dbo:of_year dbr:2015 .
+
+<http://dbpedia.org/resource/ArXiv_vol_abs/1809.05679> dbo:is_volume_of dbr:ArXiv ;
+    dbo:of_year dbr:2018 .
+
+<http://dbpedia.org/resource/ArXiv_vol_abs/1811.00855> dbo:is_volume_of dbr:ArXiv ;
+    dbo:of_year dbr:2018 .
+
+dbr:Bioinformatics_vol_2214 dbo:is_volume_of dbr:Bioinformatics ;
+    dbo:of_year dbr:2006 .
+
+dbr:ProceedingsofInternationalConferenceonImageProcessing_vol_1 dbo:is_volume_of dbr:ProceedingsofInternationalConferenceonImageProcessing ;
+    dbo:of_year dbr:1997 .
+

@@ -4,3 +4,4 @@ IPython
 graphviz
 matplotlib
 owlrl
+faker
