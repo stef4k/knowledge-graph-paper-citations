@@ -39,8 +39,8 @@ g.add((DBO.is_written, RDFS.domain, DBO.Paper))
 g.add((DBO.is_written, RDFS.range, DBO.Author))
 # Paper -is_corresponding_author-> Author
 g.add((DBO.is_corresponding_author, RDF.type, RDF.Property))
-g.add((DBO.is_corresponding_author, RDFS.range, DBO.Author))
 g.add((DBO.is_corresponding_author, RDFS.domain, DBO.Paper))
+g.add((DBO.is_corresponding_author, RDFS.range, DBO.Author))
 # Paper -presentedAt-> EventEdition
 g.add((DBO.presentedAt , RDF.type, RDF.Property))
 g.add((DBO.presentedAt , RDFS.domain, DBO.Paper))
