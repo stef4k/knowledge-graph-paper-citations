@@ -88,7 +88,7 @@ ns1:is_volume_of a rdf:Property ;
     rdfs:range ns1:Journal .
 
 ns1:is_workshop a rdf:Property ;
-    rdfs:domain ns1:ConferenceEdition ;
+    rdfs:domain ns1:Conference ;
     rdfs:range xsd:boolean .
 
 ns1:journal_name a rdf:Property ;
