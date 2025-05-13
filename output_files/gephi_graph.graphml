@@ -2,143 +2,49 @@
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
   <key id="d0" for="edge" attr.name="label" attr.type="string" />
   <graph edgedefault="directed">
-    <node id="is_corresponding_author" />
-    <node id="Property" />
-    <node id="is_assigned_by" />
-    <node id="review_written_by" />
-    <node id="Review" />
-    <node id="published_in" />
-    <node id="Paper" />
-    <node id="Coordinator" />
-    <node id="Class" />
-    <node id="held_in_city" />
-    <node id="City" />
-    <node id="presentedAt" />
-    <node id="EventEdition" />
-    <node id="of_year" />
-    <node id="Year" />
-    <node id="is_about" />
-    <node id="Keyword" />
     <node id="is_volume_of" />
     <node id="Journal" />
-    <node id="edits" />
-    <node id="held_in_year" />
-    <node id="ConferenceChair" />
-    <node id="WorkshopEdition" />
+    <node id="conference_city" />
+    <node id="Property" />
+    <node id="is_written" />
+    <node id="Paper" />
+    <node id="is_workshop" />
+    <node id="ConferenceEdition" />
+    <node id="presentedAt" />
+    <node id="conference_year" />
+    <node id="volume_year" />
+    <node id="JournalEditor" />
+    <node id="Class" />
+    <node id="name" />
+    <node id="string" />
+    <node id="title" />
+    <node id="is_accepted" />
+    <node id="boolean" />
+    <node id="journal_name" />
+    <node id="Coordinator" />
+    <node id="Person" />
+    <node id="is_corresponding_author" />
+    <node id="review_written_by" />
     <node id="Reviewer" />
-    <node id="organizes_workshop" />
+    <node id="Keyword" />
+    <node id="Review" />
+    <node id="year_written" />
+    <node id="is_about" />
+    <node id="review_description" />
+    <node id="organizes_conference" />
+    <node id="ConferenceChair" />
+    <node id="JournalVolume" />
+    <node id="edits" />
+    <node id="conference_name" />
+    <node id="corresponds_to_paper" />
+    <node id="published_in" />
+    <node id="is_edition_of_conf" />
+    <node id="keyword_name" />
+    <node id="Author" />
     <node id="cites" />
     <node id="Conference" />
-    <node id="Person" />
-    <node id="is_written" />
-    <node id="Author" />
-    <node id="Workshop" />
-    <node id="is_edition_of_workshop" />
-    <node id="JournalEditor" />
-    <node id="organizes_conference" />
-    <node id="corresponds_to_paper" />
-    <node id="JournalVolume" />
-    <node id="is_edition_of_conf" />
-    <node id="ConferenceEdition" />
-    <edge source="is_corresponding_author" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="is_corresponding_author" target="Paper">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="is_corresponding_author" target="is_written">
-      <data key="d0">rdfs:subPropertyOf</data>
-    </edge>
-    <edge source="is_corresponding_author" target="Author">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="is_assigned_by" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="is_assigned_by" target="Review">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="is_assigned_by" target="Coordinator">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="review_written_by" target="Review">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="review_written_by" target="Reviewer">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="review_written_by" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="Review" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="published_in" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="published_in" target="Paper">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="published_in" target="JournalVolume">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="Paper" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="Coordinator" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="Coordinator" target="Person">
-      <data key="d0">rdfs:subClassOf</data>
-    </edge>
-    <edge source="held_in_city" target="City">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="held_in_city" target="EventEdition">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="held_in_city" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="City" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="presentedAt" target="EventEdition">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="presentedAt" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="presentedAt" target="Paper">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="EventEdition" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="of_year" target="Year">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="of_year" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="of_year" target="JournalVolume">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="Year" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="is_about" target="Keyword">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="is_about" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="is_about" target="Paper">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="Keyword" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
+    <node id="abstract" />
+    <node id="is_assigned_by" />
     <edge source="is_volume_of" target="Journal">
       <data key="d0">rdfs:range</data>
     </edge>
@@ -151,71 +57,248 @@
     <edge source="Journal" target="Class">
       <data key="d0">rdf:type</data>
     </edge>
-    <edge source="edits" target="Property">
+    <edge source="conference_city" target="Property">
       <data key="d0">rdf:type</data>
     </edge>
-    <edge source="edits" target="JournalEditor">
+    <edge source="conference_city" target="string">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="conference_city" target="ConferenceEdition">
       <data key="d0">rdfs:domain</data>
     </edge>
-    <edge source="edits" target="Journal">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="held_in_year" target="EventEdition">
+    <edge source="is_written" target="Paper">
       <data key="d0">rdfs:domain</data>
     </edge>
-    <edge source="held_in_year" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="held_in_year" target="Year">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="ConferenceChair" target="Coordinator">
-      <data key="d0">rdfs:subClassOf</data>
-    </edge>
-    <edge source="ConferenceChair" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="WorkshopEdition" target="EventEdition">
-      <data key="d0">rdfs:subClassOf</data>
-    </edge>
-    <edge source="WorkshopEdition" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="Reviewer" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="Reviewer" target="Author">
-      <data key="d0">rdfs:subClassOf</data>
-    </edge>
-    <edge source="organizes_workshop" target="ConferenceChair">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="organizes_workshop" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="organizes_workshop" target="Workshop">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="cites" target="Paper">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="cites" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="Conference" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="Person" target="Class">
+    <edge source="is_written" target="Property">
       <data key="d0">rdf:type</data>
     </edge>
     <edge source="is_written" target="Author">
       <data key="d0">rdfs:range</data>
     </edge>
-    <edge source="is_written" target="Property">
+    <edge source="Paper" target="Class">
       <data key="d0">rdf:type</data>
     </edge>
-    <edge source="is_written" target="Paper">
+    <edge source="is_workshop" target="ConferenceEdition">
       <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="is_workshop" target="boolean">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="is_workshop" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="ConferenceEdition" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="presentedAt" target="ConferenceEdition">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="presentedAt" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="presentedAt" target="Paper">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="conference_year" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="conference_year" target="string">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="conference_year" target="ConferenceEdition">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="volume_year" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="volume_year" target="JournalVolume">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="volume_year" target="string">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="JournalEditor" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="JournalEditor" target="Coordinator">
+      <data key="d0">rdfs:subClassOf</data>
+    </edge>
+    <edge source="name" target="string">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="name" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="name" target="Person">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="title" target="string">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="title" target="Paper">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="title" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="is_accepted" target="boolean">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="is_accepted" target="Review">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="is_accepted" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="journal_name" target="string">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="journal_name" target="Journal">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="journal_name" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="Coordinator" target="Person">
+      <data key="d0">rdfs:subClassOf</data>
+    </edge>
+    <edge source="Coordinator" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="Person" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="is_corresponding_author" target="is_written">
+      <data key="d0">rdfs:subPropertyOf</data>
+    </edge>
+    <edge source="is_corresponding_author" target="Paper">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="is_corresponding_author" target="Author">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="is_corresponding_author" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="review_written_by" target="Reviewer">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="review_written_by" target="Review">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="review_written_by" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="Reviewer" target="Author">
+      <data key="d0">rdfs:subClassOf</data>
+    </edge>
+    <edge source="Reviewer" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="Keyword" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="Review" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="year_written" target="string">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="year_written" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="year_written" target="Paper">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="is_about" target="Keyword">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="is_about" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="is_about" target="Paper">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="review_description" target="Review">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="review_description" target="string">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="review_description" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="organizes_conference" target="ConferenceChair">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="organizes_conference" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="organizes_conference" target="Conference">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="ConferenceChair" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="ConferenceChair" target="Coordinator">
+      <data key="d0">rdfs:subClassOf</data>
+    </edge>
+    <edge source="JournalVolume" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="edits" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="edits" target="Journal">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="edits" target="JournalEditor">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="conference_name" target="string">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="conference_name" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="conference_name" target="Conference">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="corresponds_to_paper" target="Review">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="corresponds_to_paper" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="corresponds_to_paper" target="Paper">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="published_in" target="JournalVolume">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="published_in" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="published_in" target="Paper">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="is_edition_of_conf" target="ConferenceEdition">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="is_edition_of_conf" target="Conference">
+      <data key="d0">rdfs:range</data>
+    </edge>
+    <edge source="is_edition_of_conf" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="keyword_name" target="Keyword">
+      <data key="d0">rdfs:domain</data>
+    </edge>
+    <edge source="keyword_name" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="keyword_name" target="string">
+      <data key="d0">rdfs:range</data>
     </edge>
     <edge source="Author" target="Person">
       <data key="d0">rdfs:subClassOf</data>
@@ -223,59 +306,32 @@
     <edge source="Author" target="Class">
       <data key="d0">rdf:type</data>
     </edge>
-    <edge source="Workshop" target="Class">
+    <edge source="cites" target="Property">
       <data key="d0">rdf:type</data>
     </edge>
-    <edge source="is_edition_of_workshop" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="is_edition_of_workshop" target="WorkshopEdition">
+    <edge source="cites" target="Paper">
       <data key="d0">rdfs:domain</data>
     </edge>
-    <edge source="is_edition_of_workshop" target="Workshop">
+    <edge source="Conference" target="Class">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="abstract" target="string">
       <data key="d0">rdfs:range</data>
     </edge>
-    <edge source="JournalEditor" target="Coordinator">
-      <data key="d0">rdfs:subClassOf</data>
-    </edge>
-    <edge source="JournalEditor" target="Class">
+    <edge source="abstract" target="Property">
       <data key="d0">rdf:type</data>
     </edge>
-    <edge source="organizes_conference" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="organizes_conference" target="ConferenceChair">
+    <edge source="abstract" target="Paper">
       <data key="d0">rdfs:domain</data>
     </edge>
-    <edge source="organizes_conference" target="Conference">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="corresponds_to_paper" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="corresponds_to_paper" target="Review">
+    <edge source="is_assigned_by" target="Review">
       <data key="d0">rdfs:domain</data>
     </edge>
-    <edge source="corresponds_to_paper" target="Paper">
+    <edge source="is_assigned_by" target="Property">
+      <data key="d0">rdf:type</data>
+    </edge>
+    <edge source="is_assigned_by" target="Coordinator">
       <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="JournalVolume" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="is_edition_of_conf" target="Property">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="is_edition_of_conf" target="Conference">
-      <data key="d0">rdfs:range</data>
-    </edge>
-    <edge source="is_edition_of_conf" target="ConferenceEdition">
-      <data key="d0">rdfs:domain</data>
-    </edge>
-    <edge source="ConferenceEdition" target="Class">
-      <data key="d0">rdf:type</data>
-    </edge>
-    <edge source="ConferenceEdition" target="EventEdition">
-      <data key="d0">rdfs:subClassOf</data>
     </edge>
   </graph>
 </graphml>

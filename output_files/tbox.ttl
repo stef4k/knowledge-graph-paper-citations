@@ -1,24 +1,20 @@
 @prefix ns1: <http://dbpedia.org/ontology/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ns1:Author a rdfs:Class ;
     rdfs:subClassOf ns1:Person .
-
-ns1:City a rdfs:Class .
 
 ns1:Conference a rdfs:Class .
 
 ns1:ConferenceChair a rdfs:Class ;
     rdfs:subClassOf ns1:Coordinator .
 
-ns1:ConferenceEdition a rdfs:Class ;
-    rdfs:subClassOf ns1:EventEdition .
+ns1:ConferenceEdition a rdfs:Class .
 
 ns1:Coordinator a rdfs:Class ;
     rdfs:subClassOf ns1:Person .
-
-ns1:EventEdition a rdfs:Class .
 
 ns1:Journal a rdfs:Class .
 
@@ -38,16 +34,25 @@ ns1:Review a rdfs:Class .
 ns1:Reviewer a rdfs:Class ;
     rdfs:subClassOf ns1:Author .
 
-ns1:Workshop a rdfs:Class .
-
-ns1:WorkshopEdition a rdfs:Class ;
-    rdfs:subClassOf ns1:EventEdition .
-
-ns1:Year a rdfs:Class .
+ns1:abstract a rdf:Property ;
+    rdfs:domain ns1:Paper ;
+    rdfs:range xsd:string .
 
 ns1:cites a rdf:Property ;
     rdfs:domain ns1:Paper ;
     rdfs:range ns1:Paper .
+
+ns1:conference_city a rdf:Property ;
+    rdfs:domain ns1:ConferenceEdition ;
+    rdfs:range xsd:string .
+
+ns1:conference_name a rdf:Property ;
+    rdfs:domain ns1:Conference ;
+    rdfs:range xsd:string .
+
+ns1:conference_year a rdf:Property ;
+    rdfs:domain ns1:ConferenceEdition ;
+    rdfs:range xsd:string .
 
 ns1:corresponds_to_paper a rdf:Property ;
     rdfs:domain ns1:Review ;
@@ -57,17 +62,13 @@ ns1:edits a rdf:Property ;
     rdfs:domain ns1:JournalEditor ;
     rdfs:range ns1:Journal .
 
-ns1:held_in_city a rdf:Property ;
-    rdfs:domain ns1:EventEdition ;
-    rdfs:range ns1:City .
-
-ns1:held_in_year a rdf:Property ;
-    rdfs:domain ns1:EventEdition ;
-    rdfs:range ns1:Year .
-
 ns1:is_about a rdf:Property ;
     rdfs:domain ns1:Paper ;
     rdfs:range ns1:Keyword .
+
+ns1:is_accepted a rdf:Property ;
+    rdfs:domain ns1:Review ;
+    rdfs:range xsd:boolean .
 
 ns1:is_assigned_by a rdf:Property ;
     rdfs:domain ns1:Review ;
@@ -82,37 +83,57 @@ ns1:is_edition_of_conf a rdf:Property ;
     rdfs:domain ns1:ConferenceEdition ;
     rdfs:range ns1:Conference .
 
-ns1:is_edition_of_workshop a rdf:Property ;
-    rdfs:domain ns1:WorkshopEdition ;
-    rdfs:range ns1:Workshop .
-
 ns1:is_volume_of a rdf:Property ;
     rdfs:domain ns1:JournalVolume ;
     rdfs:range ns1:Journal .
 
-ns1:of_year a rdf:Property ;
-    rdfs:domain ns1:JournalVolume ;
-    rdfs:range ns1:Year .
+ns1:is_workshop a rdf:Property ;
+    rdfs:domain ns1:ConferenceEdition ;
+    rdfs:range xsd:boolean .
+
+ns1:journal_name a rdf:Property ;
+    rdfs:domain ns1:Journal ;
+    rdfs:range xsd:string .
+
+ns1:keyword_name a rdf:Property ;
+    rdfs:domain ns1:Keyword ;
+    rdfs:range xsd:string .
+
+ns1:name a rdf:Property ;
+    rdfs:domain ns1:Person ;
+    rdfs:range xsd:string .
 
 ns1:organizes_conference a rdf:Property ;
     rdfs:domain ns1:ConferenceChair ;
     rdfs:range ns1:Conference .
 
-ns1:organizes_workshop a rdf:Property ;
-    rdfs:domain ns1:ConferenceChair ;
-    rdfs:range ns1:Workshop .
-
 ns1:presentedAt a rdf:Property ;
     rdfs:domain ns1:Paper ;
-    rdfs:range ns1:EventEdition .
+    rdfs:range ns1:ConferenceEdition .
 
 ns1:published_in a rdf:Property ;
     rdfs:domain ns1:Paper ;
     rdfs:range ns1:JournalVolume .
 
+ns1:review_description a rdf:Property ;
+    rdfs:domain ns1:Review ;
+    rdfs:range xsd:string .
+
 ns1:review_written_by a rdf:Property ;
     rdfs:domain ns1:Review ;
     rdfs:range ns1:Reviewer .
+
+ns1:title a rdf:Property ;
+    rdfs:domain ns1:Paper ;
+    rdfs:range xsd:string .
+
+ns1:volume_year a rdf:Property ;
+    rdfs:domain ns1:JournalVolume ;
+    rdfs:range xsd:string .
+
+ns1:year_written a rdf:Property ;
+    rdfs:domain ns1:Paper ;
+    rdfs:range xsd:string .
 
 ns1:is_written a rdf:Property ;
     rdfs:domain ns1:Paper ;
