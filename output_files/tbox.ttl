@@ -1,4 +1,4 @@
-@prefix ns1: <http://dbpedia.org/ontology/> .
+@prefix ns1: <http://sdm_upc.org/ontology/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -52,7 +52,7 @@ ns1:conference_name a rdf:Property ;
 
 ns1:conference_year a rdf:Property ;
     rdfs:domain ns1:ConferenceEdition ;
-    rdfs:range xsd:string .
+    rdfs:range xsd:integer .
 
 ns1:corresponds_to_paper a rdf:Property ;
     rdfs:domain ns1:Review ;
@@ -107,6 +107,10 @@ ns1:organizes_conference a rdf:Property ;
     rdfs:domain ns1:ConferenceChair ;
     rdfs:range ns1:Conference .
 
+ns1:person_id a rdf:Property ;
+    rdfs:domain ns1:Person ;
+    rdfs:range xsd:string .
+
 ns1:presentedAt a rdf:Property ;
     rdfs:domain ns1:Paper ;
     rdfs:range ns1:ConferenceEdition .
@@ -129,11 +133,11 @@ ns1:title a rdf:Property ;
 
 ns1:volume_year a rdf:Property ;
     rdfs:domain ns1:JournalVolume ;
-    rdfs:range xsd:string .
+    rdfs:range xsd:integer .
 
 ns1:year_written a rdf:Property ;
     rdfs:domain ns1:Paper ;
-    rdfs:range xsd:string .
+    rdfs:range xsd:integer .
 
 ns1:is_written a rdf:Property ;
     rdfs:domain ns1:Paper ;
