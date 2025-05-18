@@ -1,13 +1,8 @@
 #import rdflib
-from rdflib import Graph, Namespace, URIRef, Literal
-from rdflib.namespace import DC, RDF, FOAF, RDFS, XSD #import already in RDFlib integrated namespaces 
+from rdflib import Graph, Namespace
+from rdflib.namespace import RDF, RDFS, XSD #import already in RDFlib integrated namespaces 
 #for visualization
-import io
-import pydotplus
-from IPython.display import display, Image
-from rdflib.tools.rdf2dot import rdf2dot
-from rdflib import Graph, Namespace, RDF, RDFS, URIRef
-
+from rdflib import Graph, Namespace, RDF, RDFS
 
 # For Classes and properties 
 DBO = Namespace("http://sdm_upc.org/ontology/")
@@ -79,7 +74,6 @@ g.add((DBO.organizes_conference, RDFS.range, DBO.Conference))
 g.add((DBO.edits, RDF.type, RDF.Property))
 g.add((DBO.edits, RDFS.domain, DBO.JournalEditor))
 g.add((DBO.edits, RDFS.range, DBO.Journal))
-
 
 # Review -is_assigned_by-> Coordinator
 g.add((DBO.is_assigned_by, RDF.type, RDF.Property))
