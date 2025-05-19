@@ -1,118 +1,116 @@
-@prefix ns1: <http://dbpedia.org/ontology/> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ns1:Author a rdfs:Class ;
-    rdfs:subClassOf ns1:Person .
+<http://sdm_upc.org/ontology/Author> a rdfs:Class ;
+    rdfs:subClassOf <http://sdm_upc.org/ontology/Person> .
 
-ns1:City a rdfs:Class .
+<http://sdm_upc.org/ontology/Conference> a rdfs:Class .
 
-ns1:Conference a rdfs:Class .
+<http://sdm_upc.org/ontology/ConferenceChair> a rdfs:Class ;
+    rdfs:subClassOf <http://sdm_upc.org/ontology/Coordinator> .
 
-ns1:ConferenceChair a rdfs:Class ;
-    rdfs:subClassOf ns1:Coordinator .
+<http://sdm_upc.org/ontology/ConferenceEdition> a rdfs:Class .
 
-ns1:ConferenceEdition a rdfs:Class ;
-    rdfs:subClassOf ns1:EventEdition .
+<http://sdm_upc.org/ontology/Coordinator> a rdfs:Class ;
+    rdfs:subClassOf <http://sdm_upc.org/ontology/Person> .
 
-ns1:Coordinator a rdfs:Class ;
-    rdfs:subClassOf ns1:Person .
+<http://sdm_upc.org/ontology/Journal> a rdfs:Class .
 
-ns1:EventEdition a rdfs:Class .
+<http://sdm_upc.org/ontology/JournalEditor> a rdfs:Class ;
+    rdfs:subClassOf <http://sdm_upc.org/ontology/Coordinator> .
 
-ns1:Journal a rdfs:Class .
+<http://sdm_upc.org/ontology/JournalVolume> a rdfs:Class .
 
-ns1:JournalEditor a rdfs:Class ;
-    rdfs:subClassOf ns1:Coordinator .
+<http://sdm_upc.org/ontology/Keyword> a rdfs:Class .
 
-ns1:JournalVolume a rdfs:Class .
+<http://sdm_upc.org/ontology/Paper> a rdfs:Class .
 
-ns1:Keyword a rdfs:Class .
+<http://sdm_upc.org/ontology/Person> a rdfs:Class .
 
-ns1:Paper a rdfs:Class .
+<http://sdm_upc.org/ontology/Review> a rdfs:Class .
 
-ns1:Person a rdfs:Class .
+<http://sdm_upc.org/ontology/Reviewer> a rdfs:Class ;
+    rdfs:subClassOf <http://sdm_upc.org/ontology/Author> .
 
-ns1:Review a rdfs:Class .
+<http://sdm_upc.org/ontology/abstract> rdfs:domain <http://sdm_upc.org/ontology/Paper> ;
+    rdfs:range xsd:string .
 
-ns1:Reviewer a rdfs:Class ;
-    rdfs:subClassOf ns1:Author .
+<http://sdm_upc.org/ontology/cites> rdfs:domain <http://sdm_upc.org/ontology/Paper> ;
+    rdfs:range <http://sdm_upc.org/ontology/Paper> .
 
-ns1:Workshop a rdfs:Class .
+<http://sdm_upc.org/ontology/conference_city> rdfs:domain <http://sdm_upc.org/ontology/ConferenceEdition> ;
+    rdfs:range xsd:string .
 
-ns1:WorkshopEdition a rdfs:Class ;
-    rdfs:subClassOf ns1:EventEdition .
+<http://sdm_upc.org/ontology/conference_name> rdfs:domain <http://sdm_upc.org/ontology/Conference> ;
+    rdfs:range xsd:string .
 
-ns1:Year a rdfs:Class .
+<http://sdm_upc.org/ontology/conference_year> rdfs:domain <http://sdm_upc.org/ontology/ConferenceEdition> ;
+    rdfs:range xsd:integer .
 
-ns1:cites a rdf:Property ;
-    rdfs:domain ns1:Paper ;
-    rdfs:range ns1:Paper .
+<http://sdm_upc.org/ontology/corresponds_to_paper> rdfs:domain <http://sdm_upc.org/ontology/Review> ;
+    rdfs:range <http://sdm_upc.org/ontology/Paper> .
 
-ns1:corresponds_to_paper a rdf:Property ;
-    rdfs:domain ns1:Review ;
-    rdfs:range ns1:Paper .
+<http://sdm_upc.org/ontology/edits> rdfs:domain <http://sdm_upc.org/ontology/JournalEditor> ;
+    rdfs:range <http://sdm_upc.org/ontology/Journal> .
 
-ns1:edits a rdf:Property ;
-    rdfs:domain ns1:JournalEditor ;
-    rdfs:range ns1:Journal .
+<http://sdm_upc.org/ontology/is_about> rdfs:domain <http://sdm_upc.org/ontology/Paper> ;
+    rdfs:range <http://sdm_upc.org/ontology/Keyword> .
 
-ns1:held_in_city a rdf:Property ;
-    rdfs:domain ns1:EventEdition ;
-    rdfs:range ns1:City .
+<http://sdm_upc.org/ontology/is_accepted> rdfs:domain <http://sdm_upc.org/ontology/Review> ;
+    rdfs:range xsd:boolean .
 
-ns1:held_in_year a rdf:Property ;
-    rdfs:domain ns1:EventEdition ;
-    rdfs:range ns1:Year .
+<http://sdm_upc.org/ontology/is_assigned_by> rdfs:domain <http://sdm_upc.org/ontology/Review> ;
+    rdfs:range <http://sdm_upc.org/ontology/Coordinator> .
 
-ns1:is_about a rdf:Property ;
-    rdfs:domain ns1:Paper ;
-    rdfs:range ns1:Keyword .
+<http://sdm_upc.org/ontology/is_corresponding_author> rdfs:domain <http://sdm_upc.org/ontology/Paper> ;
+    rdfs:range <http://sdm_upc.org/ontology/Author> ;
+    rdfs:subPropertyOf <http://sdm_upc.org/ontology/is_written> .
 
-ns1:is_assigned_by a rdf:Property ;
-    rdfs:domain ns1:Review ;
-    rdfs:range ns1:Coordinator .
+<http://sdm_upc.org/ontology/is_edition_of_conf> rdfs:domain <http://sdm_upc.org/ontology/ConferenceEdition> ;
+    rdfs:range <http://sdm_upc.org/ontology/Conference> .
 
-ns1:is_corresponding_author a rdf:Property ;
-    rdfs:domain ns1:Paper ;
-    rdfs:range ns1:Author ;
-    rdfs:subPropertyOf ns1:is_written .
+<http://sdm_upc.org/ontology/is_volume_of> rdfs:domain <http://sdm_upc.org/ontology/JournalVolume> ;
+    rdfs:range <http://sdm_upc.org/ontology/Journal> .
 
-ns1:is_edition_of a rdf:Property ;
-    rdfs:domain ns1:ConferenceEdition,
-        ns1:WorkshopEdition ;
-    rdfs:range ns1:Conference,
-        ns1:Workshop .
+<http://sdm_upc.org/ontology/is_workshop> rdfs:domain <http://sdm_upc.org/ontology/Conference> ;
+    rdfs:range xsd:boolean .
 
-ns1:is_volume_of a rdf:Property ;
-    rdfs:domain ns1:JournalVolume ;
-    rdfs:range ns1:Journal .
+<http://sdm_upc.org/ontology/journal_name> rdfs:domain <http://sdm_upc.org/ontology/Journal> ;
+    rdfs:range xsd:string .
 
-ns1:of_year a rdf:Property ;
-    rdfs:domain ns1:JournalVolume ;
-    rdfs:range ns1:Year .
+<http://sdm_upc.org/ontology/keyword_name> rdfs:domain <http://sdm_upc.org/ontology/Keyword> ;
+    rdfs:range xsd:string .
 
-ns1:organizes_conference a rdf:Property ;
-    rdfs:domain ns1:ConferenceChair ;
-    rdfs:range ns1:Conference .
+<http://sdm_upc.org/ontology/name> rdfs:domain <http://sdm_upc.org/ontology/Person> ;
+    rdfs:range xsd:string .
 
-ns1:organizes_workshop a rdf:Property ;
-    rdfs:domain ns1:ConferenceChair ;
-    rdfs:range ns1:Workshop .
+<http://sdm_upc.org/ontology/organizes_conference> rdfs:domain <http://sdm_upc.org/ontology/ConferenceChair> ;
+    rdfs:range <http://sdm_upc.org/ontology/Conference> .
 
-ns1:presentedAt a rdf:Property ;
-    rdfs:domain ns1:Paper ;
-    rdfs:range ns1:EventEdition .
+<http://sdm_upc.org/ontology/person_id> rdfs:domain <http://sdm_upc.org/ontology/Person> ;
+    rdfs:range xsd:string .
 
-ns1:published_in a rdf:Property ;
-    rdfs:domain ns1:Paper ;
-    rdfs:range ns1:JournalVolume .
+<http://sdm_upc.org/ontology/presentedAt> rdfs:domain <http://sdm_upc.org/ontology/Paper> ;
+    rdfs:range <http://sdm_upc.org/ontology/ConferenceEdition> .
 
-ns1:review_written_by a rdf:Property ;
-    rdfs:domain ns1:Review ;
-    rdfs:range ns1:Reviewer .
+<http://sdm_upc.org/ontology/published_in> rdfs:domain <http://sdm_upc.org/ontology/Paper> ;
+    rdfs:range <http://sdm_upc.org/ontology/JournalVolume> .
 
-ns1:is_written a rdf:Property ;
-    rdfs:domain ns1:Paper ;
-    rdfs:range ns1:Author .
+<http://sdm_upc.org/ontology/review_description> rdfs:domain <http://sdm_upc.org/ontology/Review> ;
+    rdfs:range xsd:string .
+
+<http://sdm_upc.org/ontology/review_written_by> rdfs:domain <http://sdm_upc.org/ontology/Review> ;
+    rdfs:range <http://sdm_upc.org/ontology/Reviewer> .
+
+<http://sdm_upc.org/ontology/title> rdfs:domain <http://sdm_upc.org/ontology/Paper> ;
+    rdfs:range xsd:string .
+
+<http://sdm_upc.org/ontology/volume_year> rdfs:domain <http://sdm_upc.org/ontology/JournalVolume> ;
+    rdfs:range xsd:integer .
+
+<http://sdm_upc.org/ontology/year_written> rdfs:domain <http://sdm_upc.org/ontology/Paper> ;
+    rdfs:range xsd:integer .
+
+<http://sdm_upc.org/ontology/is_written> rdfs:domain <http://sdm_upc.org/ontology/Paper> ;
+    rdfs:range <http://sdm_upc.org/ontology/Author> .
 
