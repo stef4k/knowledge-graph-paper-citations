@@ -1,5 +1,8 @@
 rdflib
+owlrl
 pydotplus
-IPython
+pandas
+ipython
 graphviz
 matplotlib
+faker
