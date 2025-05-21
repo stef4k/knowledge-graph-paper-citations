@@ -27,7 +27,7 @@ for _ in range(NUM_RECORDS):
     data.append(record)
 
 # CSV file path
-csv_file = 'data/coordinators.csv'
+csv_file = '../data/coordinators.csv'
 
 # Write to CSV
 with open(csv_file, mode='w', newline='') as file:
