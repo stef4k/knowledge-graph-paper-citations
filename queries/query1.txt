@@ -1,6 +1,6 @@
 #Average citations made to a paper by year and by publication type
 
-"""PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dbo: <http://sdm_upc.org/ontology/>
 
 SELECT ?typeLabel ?year (COALESCE(AVG(?edgeCount), 0) AS ?citesAvg)
@@ -38,4 +38,4 @@ GROUP BY  ?node ?typeLabel ?year}
   }
 }
 GROUP BY ?typeLabel ?year
-ORDER BY ?year"""
+ORDER BY ?year
