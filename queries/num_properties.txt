@@ -1,0 +1,12 @@
+# Counts the number of total properties
+
+PREFIX sdm: <http://sdm_upc.org/ontology/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT (COUNT(DISTINCT ?property) AS ?propertyCount) WHERE{
+  {
+    ?property a rdf:Property .
+        FILTER(STRSTARTS(STR(?property), STR(sdm:)))
+  }
+}
+ORDER BY ?property

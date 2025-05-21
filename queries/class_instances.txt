@@ -1,0 +1,11 @@
+# Counts the instances of each class
+
+PREFIX sdm: <http://sdm_upc.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?class (COUNT(?instance) AS ?instanceCount)
+WHERE {
+  ?instance a ?class .
+  ?class a rdfs:Class .
+  FILTER(STRSTARTS(STR(?class), STR(sdm:)))
+}
+GROUP BY ?class

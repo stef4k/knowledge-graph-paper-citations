@@ -1,0 +1,40 @@
+# Most cited paper per keyword
+PREFIX sdm: <http://sdm_upc.org/ontology/>
+
+# Outer query selects the most cited paper(s) for each keyword
+SELECT ?keyword_name ?paper_title ?citationCount
+WHERE {
+  {
+    # Subquery 1: returns the citation count per pair(paper, keyword)
+    SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?citationCount)
+    WHERE {
+      ?paper sdm:is_about ?keyword .
+      ?citingPaper sdm:cites ?paper .
+    }
+    GROUP BY ?keyword ?paper
+  }
+
+  {
+    # Subquery 2: Get max citation count per keyword
+    SELECT ?keyword (MAX(?count) AS ?maxCount)
+    WHERE {
+      SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?count)
+      WHERE {
+        ?paper sdm:is_about ?keyword .
+        ?citingPaper sdm:cites ?paper .
+      }
+      GROUP BY ?keyword ?paper
+    }
+    GROUP BY ?keyword
+  }
+	
+  
+  # Filter to only return the most cited paper(s) per keyword
+  FILTER(?citationCount = ?maxCount)
+  # Get the title and keyword name
+  ?paper sdm:title ?paper_title .
+  ?keyword sdm:keyword_name ?keyword_name .
+  
+}
+ORDER BY DESC(?citationCount)
+LIMIT 15

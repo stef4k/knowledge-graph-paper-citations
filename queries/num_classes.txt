@@ -1,0 +1,9 @@
+# Counts the number of total classes
+PREFIX sdm: <http://sdm_upc.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT (COUNT(DISTINCT ?class) AS ?classCount)
+WHERE {
+  ?class a rdfs:Class .
+  FILTER(STRSTARTS(STR(?class), STR(sdm:)))
+}

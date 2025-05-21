@@ -1,0 +1,13 @@
+# Counts the number of triplet per property
+
+PREFIX sdm: <http://sdm_upc.org/ontology/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?property (COUNT(*) AS ?tripleCount)
+WHERE {
+  ?s ?property ?o .
+  ?property a rdf:Property .
+  FILTER(STRSTARTS(STR(?property), STR(sdm:)))
+}
+GROUP BY ?property
+ORDER BY ?property

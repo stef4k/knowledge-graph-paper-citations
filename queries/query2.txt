@@ -1,0 +1,14 @@
+# Query of most collaborative authors
+
+PREFIX sdm: <http://sdm_upc.org/ontology/>
+
+
+SELECT ?author_name (COUNT(DISTINCT ?coauthor) AS ?collaborators)
+WHERE {
+  ?paper sdm:is_written ?author, ?coauthor .
+    ?author sdm:name ?author_name
+  FILTER(?author != ?coauthor)
+}
+GROUP BY ?author ?author_name
+ORDER BY DESC(?collaborators)
+LIMIT 10
