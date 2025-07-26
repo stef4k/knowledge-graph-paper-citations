@@ -1,4 +1,13 @@
-# knowledge-graph-paper-citations
+# Knowledge Graph in Publications Domain
+
+## Project Description
+This is a hands-on project focused on building and querying knowledge graphs with GraphDB. It requires the design and implementation of a custom ontology for the research publications domain using RDFLib, covering concepts such as papers, authorship, conferences, journals, and reviews. The project emphasizes best practices in knowledge graph modeling, the use of inference in semantic queries, and crafting expressive SPARQL queries to extract meaningful insights.
+
+Check the important pdf files:
+- [Final Report](https://github.com/stef4k/knowledge-graph-paper-citations/blob/main/final-docs/final_report.pdf)
+- [Project Description](https://github.com/stef4k/knowledge-graph-paper-citations/blob/main/final-docs/assignment_description.pdf)
+
+
 
 ## Installation and Execution
 Follow these steps to set up the environment:
