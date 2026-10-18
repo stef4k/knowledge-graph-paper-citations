@@ -3,10 +3,11 @@
 ## What it does
 
 kgqa answers English questions about the research-publications knowledge graph in this
-repository (papers, authors, citations, conferences, journals, reviews). A language model
-turns the question into a SPARQL query; the query is checked and run on the graph, and a
-second model call writes a short answer that may only use the returned rows. The system is
-evaluated against 15 hand-checked reference queries.
+repository (papers, authors, citations, conferences, journals, reviews). The language model
+is Google's **Gemini 3.5 Flash Lite** (`gemini-3.5-flash-lite`, free tier of the Gemini API):
+it turns the question into a SPARQL query, the query is checked and run on the graph, and a
+second call to the same model writes a short answer that may only use the returned rows.
+The system is evaluated against 15 hand-checked reference queries.
 
 ## How it works
 
@@ -164,49 +165,37 @@ about query form, not about understanding the data.
 
 ## Limitations
 
-- **Small, self-written test set.** 15 questions (3 per category), drafted with an AI
-  assistant and checked by me one by one (A1 and A2, the two most complex reference queries,
-  with the help of an LLM). One item is 6.7 percentage points of the total, so the numbers
-  show tendencies, not precise rates. The prompt (rules and worked examples) was written
-  before the test set and was not tuned on it.
-- **Single run, one model.** The model runs at its default temperature (Google recommends
-  1.0 for Gemini 3 models and warns that lower values can cause looping), so a new run can
-  give different results. The response cache makes this run exactly reproducible. Results
-  depend on the model; only one free-tier model was evaluated.
-- **Strict comparison.** A result counts as correct only if it contains the same rows as the
-  reference (extra columns are allowed, missing ones are not). A correct answer in a different
-  shape, for example two numbers in one row instead of two rows, counts as wrong.
-- **Synthetic and noisy data.** Parts of the graph are generated or come from noisy extraction:
-  93% of the abstracts (8,077 of 8,642) are the text "nan"; the `is_workshop` flags and the
-  keyword assignments look random (ICCV, ACL and CIKM are marked as workshops); 3 papers have
-  `year_written` 0; keyword names include extraction noise ("aggregatio", "proach"); coordinator
-  names are generated first names; one paper with 274 authors dominates co-author rankings.
-  Answers are correct with respect to the graph, not to the real world.
-- **Inference.** owlrl's RDFS closure takes 25-35 minutes once. owlrl treats `false` and `0` as
-  the same literal and adds wrong triples; these are filtered out (`graph.py`). All 13 class
-  counts match the original GraphDB report; the total differs by 118 schema-level triples.
+- **Small test set:** 15 questions, drafted with an AI assistant and checked by me (A1 and A2
+  with an LLM's help). One item = 6.7 points, so the numbers show tendencies. The prompt was
+  written before the test set and not tuned on it.
+- **One model, one run** at default temperature (Google advises 1.0 for Gemini 3); new runs can
+  differ, but the cache makes this run reproducible.
+- **Strict comparison:** a correct answer in another shape (e.g. two numbers in one row instead
+  of two rows) counts as wrong.
+- **Noisy, partly synthetic data:** 93% of abstracts are the text "nan"; `is_workshop` flags and
+  keyword assignments look random (ICCV, ACL, CIKM are "workshops"); 3 papers have year 0;
+  noisy keyword names; generated coordinator names; one 274-author paper dominates co-author
+  rankings. Answers are correct for the graph, not for the real world.
+- **Inference:** owlrl needs 25-35 min once and treats `false` as `0`, adding wrong triples
+  (filtered out). Class counts match the GraphDB report; the total differs by 118 schema-level
+  triples.
 
 ## Design choices for safe use
 
-- **Read-only.** Generated queries are only passed to pyoxigraph's `Store.query()`, which cannot
-  modify data. In addition, the validator rejects anything that is not a SELECT (INSERT, DELETE,
-  LOAD, CLEAR, CONSTRUCT, ASK, DESCRIBE).
-- **Schema-term check.** Every IRI in the query is extracted from the parsed query; unknown
-  `sdm:` classes or properties and IRIs from other namespaces are rejected before running, and
-  listed in the error sent back to the model.
-- **Abstention.** The model must reply `answerable: false` when the graph has no data for the
-  question instead of writing an approximate query; this is measured separately.
-- **Answers grounded in the returned rows.** The answer call only sees the question, the query
-  and the rows, and is told not to add outside knowledge. An empty result gets a fixed sentence
-  without an LLM call. The answer is always returned together with the query and the rows.
-- **Resource limits.** 30 s query timeout (enforced by stopping a worker process), 10,000-row
-  cap, 4,000 output tokens per LLM call, one retry at most.
-- **Full logging.** Every LLM call (prompt, response, tokens, latency, cached or not) is
-  appended to a JSONL log. The API key lives in `kgqa/.env`, which is git-ignored.
+- **Read-only:** generated queries only go to `Store.query()`, which cannot modify data; the
+  validator also rejects every non-SELECT form.
+- **Schema check:** every IRI in the parsed query must be a known `sdm:` term or come from the
+  rdf, rdfs, xsd or resource namespaces; unknown terms are listed in the error sent to the retry.
+- **Abstention:** the model must reply `answerable: false` instead of approximating; measured
+  separately.
+- **Grounded answers:** the answer call sees only question, query and rows; empty results get
+  a fixed sentence without an LLM call; query and rows are always returned with the answer.
+- **Limits:** 30 s timeout (killable worker process), 10,000 rows, 4,000 output tokens per call,
+  one retry.
+- **Logging:** every call (prompt, response, tokens, latency, cached?) in a JSONL log; API key
+  in the git-ignored `kgqa/.env`.
 
 ## Differences from the original plan
 
-- Python 3.10 instead of 3.11 (the version installed); the code avoids 3.11-only features.
-- Gemini (free tier) instead of Anthropic, because of budget; one model instead of two.
-- Default temperature instead of 0 (see Limitations).
-- 15 test items instead of 25-30, to keep manual verification feasible.
+Python 3.10 instead of 3.11; Gemini free tier instead of Anthropic (budget), one model instead
+of two; default temperature instead of 0; 15 test items instead of 25-30 (manual checking).
