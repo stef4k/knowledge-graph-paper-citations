@@ -7,6 +7,11 @@ Check the important pdf files:
 - [Final Report](https://github.com/stef4k/knowledge-graph-paper-citations/blob/main/final-docs/final_report.pdf)
 - [Project Description](https://github.com/stef4k/knowledge-graph-paper-citations/blob/main/final-docs/assignment_description.pdf)
 
+## Extension: questions in plain English (`kgqa/`)
+A later addition to this project. [`kgqa/`](kgqa/README.md) answers English questions about this knowledge graph: a language model writes the SPARQL query, the query is validated and run on the graph (with RDFS inference, no GraphDB needed), and the answer is written from the returned rows only. It is evaluated against 15 hand-checked reference queries in three configurations (schema only / + worked examples / + validation and retry); the best configuration answers 13 of 15 correctly.
+
+See [kgqa/README.md](kgqa/README.md) for how it works, how to run it, the results and a failure analysis. It has its own setup; the steps below are for the original project.
+
 
 
 ## Installation and Execution

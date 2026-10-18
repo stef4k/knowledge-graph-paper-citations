@@ -1,0 +1,732 @@
+config,id,category,correct,valid_query,expected_answerable,model_answerable,retries,gold_rows,model_rows,error,llm_calls,input_tokens,output_tokens,question,sparql,gold_sparql,reason,answer
+A,L1,lookup,True,True,True,True,0,1,1,,2,1351,125,In which year was the paper 'node2vec: Scalable Feature Learning for Networks' written?,"PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT ?year WHERE { ?paper sdm:title ""node2vec: Scalable Feature Learning for Networks"" ; sdm:year_written ?year . } LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?year WHERE {
+  ?paper sdm:title ""node2vec: Scalable Feature Learning for Networks"" ;
+         sdm:year_written ?year .
+}
+",The question asks for the publication year of a specific paper title which is directly supported by the schema.,The paper 'node2vec: Scalable Feature Learning for Networks' was written in 2016.
+A,L2,lookup,False,False,True,True,0,1,,"SyntaxError: error at 1:88: expected one of Prefix not found, ['%'], ['-' | '0' ..= '9' | '\u{00B7}' | '\u{0300}'..='\u{036F}' |
+'\u{203F}'..='\u{2040}'], ['.'], [':'], ['A' ..= 'Z' | 'a' ..= 'z' | '\u{00C0}'..='\u{00D6}' | '\u{00D8}'..='\u{00F6}'
+| '\u{00F8}'..='\u{02FF}' | '\u{0370}'..='\u{037D}' | '\u{037F}'..='\u{1FFF}'
+| '\u{200C}'..='\u{200D}' | '\u{2070}'..='\u{218F}' | '\u{2C00}'..='\u{2FEF}'
+| '\u{3001}'..='\u{D7FF}' | '\u{F900}'..='\u{FDCF}' | '\u{FDF0}'..='\u{FFFD}'], ['\\'], ['_']",1,1115,97,Which paper was written in 1899?,PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT ?paper ?title WHERE { ?paper rdf:type sdm:Paper ; sdm:title ?title ; sdm:year_written 1899 . } LIMIT 100,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?paper sdm:year_written 1899 ;
+         sdm:title ?title .
+}
+",The schema allows querying papers by their year of publication and title.,
+A,L3,lookup,True,True,True,True,0,1,1,,2,1350,131,"According to the graph, is the 'International Conference on Information and Knowledge Management' a workshop?","PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT ?isWorkshop WHERE { ?conf sdm:conference_name ""International Conference on Information and Knowledge Management"" . ?conf sdm:is_workshop ?isWorkshop . } LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?is_workshop WHERE {
+  ?conference sdm:conference_name ""International Conference on Information and Knowledge Management"" ;
+              sdm:is_workshop ?is_workshop .
+}
+","The question asks if a specific conference is a workshop, which can be answered using the conference name and the is_workshop property.","According to the graph, the 'International Conference on Information and Knowledge Management' is a workshop (True)."
+A,J1,join,True,True,True,True,0,1,1,,2,1404,166,"In which journal, and in which volume year, was the paper 'How Powerful are Graph Neural Networks?' published?",PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT ?journalName ?volumeYear WHERE { ?paper sdm:title 'How Powerful are Graph Neural Networks?' . ?paper sdm:published_in ?volume . ?volume sdm:is_volume_of ?journal . ?journal sdm:journal_name ?journalName . ?volume sdm:volume_year ?volumeYear . } LIMIT 100,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?journal_name ?volume_year WHERE {
+  ?paper sdm:title ""How Powerful are Graph Neural Networks?"" ;
+         sdm:published_in ?volume .
+  ?volume sdm:volume_year ?volume_year ;
+          sdm:is_volume_of ?journal .
+  ?journal sdm:journal_name ?journal_name .
+}
+",The query retrieves the journal name and volume year for the specified paper title using the available schema.,The paper 'How Powerful are Graph Neural Networks?' was published in the journal ArXiv in the volume year 2018.
+A,J2,join,True,True,True,True,0,6,6,,2,1461,232,What are the titles of the papers presented at the 2019 edition of the 'International Joint Conference on Artificial Intelligence'?,"PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT ?title WHERE { ?paper sdm:title ?title ; sdm:presentedAt ?edition . ?edition sdm:conference_year 2019 ; sdm:is_edition_of_conf ?conf . ?conf sdm:conference_name ""International Joint Conference on Artificial Intelligence"" } LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?conference sdm:conference_name ""International Joint Conference on Artificial Intelligence"" .
+  ?edition sdm:is_edition_of_conf ?conference ;
+           sdm:conference_year 2019 .
+  ?paper sdm:presentedAt ?edition ;
+         sdm:title ?title .
+}
+",The query correctly retrieves paper titles presented at the specified conference edition and year using the provided ontology.,"The papers presented at the 2019 edition of the 'International Joint Conference on Artificial Intelligence' are:
+
+* AddGraph: Anomaly Detection in Dynamic Graph Using Attention-based Temporal GCN
+* Dynamic Hypergraph Neural Networks
+* Graph Convolutional Networks using Heat Kernel for Semi-supervised Learning
+* Graph WaveNet for Deep Spatial-Temporal Graph Modeling
+* Pre-training of Graph Augmented Transformers for Medication Recommendation
+* Topology Attack and Defense for Graph Neural Networks: An Optimization Perspective"
+A,J3,join,True,True,True,True,0,12,12,,2,1515,306,What are the titles of the papers that cite the paper 'Attention is All you Need'?,"PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT ?title WHERE { ?citedPaper sdm:title ""Attention is All you Need"" . ?citingPaper sdm:cites ?citedPaper . ?citingPaper sdm:title ?title } LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?cited sdm:title ""Attention is All you Need"" .
+  ?citing sdm:cites ?cited ;
+          sdm:title ?title .
+}
+",The query retrieves the titles of papers that cite the specific paper titled 'Attention is All you Need'.,"Based on the rows shown, the titles of the papers that cite 'Attention is All you Need' are:
+
+* ASAP: Adaptive Structure Aware Pooling for Learning Hierarchical Graph Representations
+* Doc2EDAG: An End-to-End Document-level Framework for Chinese Financial Event Extraction
+* EvolveGCN: Evolving Graph Convolutional Networks for Dynamic Graphs
+* Heterogeneous Graph Attention Networks for Semi-supervised Short Text Classification
+* Knowledge-driven Encode, Retrieve, Paraphrase for Medical Image Report Generation
+* LSGCN: Long Short-Term Traffic Prediction with Graph Convolutional Networks
+* Large-Scale Learnable Graph Convolutional Networks
+* Learning the Graphical Structure of Electronic Health Records with Graph Convolutional Transformer
+* Matching the Blanks: Distributional Similarity for Relation Learning
+* Multi-View Joint Graph Representation Learning for Urban Region Embedding
+* Pre-training of Graph Augmented Transformers for Medication Recommendation
+* Sentence Centrality Revisited for Unsupervised Summarization"
+A,A1,aggregation,False,False,True,False,0,69,,,1,1183,40,"For each publication type (Conference, Workshop, Journal) and each year from 2000 to 2022, what is the average number of citations received by the papers of that type and year that are cited at least once? Use the conference edition year for conference and workshop papers and the volume year for journal papers, and give 0 when there are no such papers.",,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?typeLabel ?year (COALESCE(AVG(?edgeCount), 0) AS ?citesAvg)
+WHERE {
+  VALUES ?typeLabel { ""Workshop"" ""Conference"" ""Journal"" }
+  VALUES ?year {
+    2000 2001 2002 2003 2004 2005 2006 2007 2008
+    2009 2010 2011 2012 2013 2014 2015 2016 2017
+    2018 2019 2020 2021 2022
+  }
+  OPTIONAL
+  {
+    {SELECT ?node ?typeLabel ?year (COUNT(?other) AS ?edgeCount)
+    WHERE {
+      ?other sdm:cites ?node .
+      ?node sdm:presentedAt ?x .
+      ?x sdm:conference_year ?year .
+      ?x sdm:is_edition_of_conf ?conf .
+      ?conf sdm:is_workshop ?type .
+      BIND(IF(?type = true, ""Workshop"", ""Conference"") AS ?typeLabel)
+    }
+    GROUP BY ?node ?typeLabel ?year}
+    UNION
+    {SELECT ?node ?typeLabel ?year (COUNT(?other) AS ?edgeCount)
+    WHERE {
+      ?other sdm:cites ?node .
+      ?node sdm:published_in ?x .
+      ?x sdm:volume_year ?year .
+      ?x sdm:is_volume_of ?conf .
+      BIND(""Journal"" AS ?typeLabel)
+    }
+    GROUP BY ?node ?typeLabel ?year}
+  }
+}
+GROUP BY ?typeLabel ?year
+ORDER BY ?year
+",The schema does not support calculating complex conditional averages over citations grouped by dynamic publication types and years with zero-filling.,This graph cannot answer the question: The schema does not support calculating complex conditional averages over citations grouped by dynamic publication types and years with zero-filling.
+A,A2,aggregation,False,True,True,True,0,15,15,,2,1700,489,"For each keyword, which paper about that keyword is cited the most? Give the 15 keyword-paper pairs with the highest citation counts: the keyword name, the paper title and the number of citations.",PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT ?keywordName ?paperTitle (COUNT(?citingPaper) AS ?citationCount) WHERE { ?keyword a sdm:Keyword ; sdm:keyword_name ?keywordName . ?paper a sdm:Paper ; sdm:title ?paperTitle ; sdm:is_about ?keyword . ?citingPaper sdm:cites ?paper . } GROUP BY ?keywordName ?paperTitle ORDER BY DESC(?citationCount) LIMIT 15,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?keyword_name ?paper_title ?citationCount
+WHERE {
+  {
+    # Subquery 1: citation count per (paper, keyword)
+    SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?citationCount)
+    WHERE {
+      ?paper sdm:is_about ?keyword .
+      ?citingPaper sdm:cites ?paper .
+    }
+    GROUP BY ?keyword ?paper
+  }
+  {
+    # Subquery 2: maximum citation count per keyword
+    SELECT ?keyword (MAX(?count) AS ?maxCount)
+    WHERE {
+      SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?count)
+      WHERE {
+        ?paper sdm:is_about ?keyword .
+        ?citingPaper sdm:cites ?paper .
+      }
+      GROUP BY ?keyword ?paper
+    }
+    GROUP BY ?keyword
+  }
+  FILTER(?citationCount = ?maxCount)
+  ?paper sdm:title ?paper_title .
+  ?keyword sdm:keyword_name ?keyword_name .
+}
+ORDER BY DESC(?citationCount)
+LIMIT 15
+","The query retrieves keywords and their papers along with the count of incoming citations, orders them descending, and limits to 15.","Based on the rows shown, here are the 15 keyword-paper pairs with the highest citation counts:
+
+* automation: ""Semi-Supervised Classification with Graph Convolutional Networks"" (32 citations)
+* virtualreality: ""Graph Attention Networks"" (30 citations)
+* analytics: ""Graph Attention Networks"" (30 citations)
+* machinelearning: ""Graph Attention Networks"" (30 citations)
+* NLP: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* datamining: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* computervision: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* blockchain: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* computervision: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* quantumcomputing: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* datamining: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* NLP: ""Inductive Representation Learning on Large Graphs"" (18 citations)
+* dataprocessing: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* deeplearning: ""How Powerful are Graph Neural Networks?"" (17 citations)
+* cloudcomputing: ""How Powerful are Graph Neural Networks?"" (17 citations)"
+A,A3,aggregation,True,True,True,True,0,1,1,,2,1319,101,How many reviews were rejected (not accepted)?,PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT (COUNT(?review) AS ?count) WHERE { ?review a sdm:Review ; sdm:is_accepted false . },"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(?review) AS ?rejected) WHERE {
+  ?review sdm:is_accepted false .
+}
+",Count the number of reviews where is_accepted is false.,"Based on the result rows, 4345 reviews were rejected (not accepted)."
+A,I1,inference,True,True,True,True,0,10,10,,2,1550,316,Which 10 authors have the largest number of distinct co-authors? Give each author's name and their number of co-authors.,PREFIX sdm: <http://sdm_upc.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?author_name (COUNT(DISTINCT ?coauthor) AS ?coauthor_count) WHERE { ?paper sdm:is_written ?author . ?paper sdm:is_written ?coauthor . FILTER(?author != ?coauthor) ?author sdm:name ?author_name . } GROUP BY ?author ?author_name ORDER BY DESC(?coauthor_count) LIMIT 10,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?author_name (COUNT(DISTINCT ?coauthor) AS ?collaborators)
+WHERE {
+  ?paper sdm:is_written ?author, ?coauthor .
+  ?author sdm:name ?author_name
+  FILTER(?author != ?coauthor)
+}
+GROUP BY ?author ?author_name
+ORDER BY DESC(?collaborators)
+LIMIT 10
+",The query finds authors and counts distinct co-authors per author using the paper co-authorship relation.,"Based on the rows shown, here are the 10 authors with the largest number of distinct co-authors and their counts:
+
+- D. Huson: 283
+- A. Gabrielian: 282
+- M. Campbell: 282
+- V. Bafna: 281
+- Ming-Ming Cheng: 279
+- S. Istrail: 278
+- R. Roberts: 277
+- B. Walenz: 275
+- K. Reinert: 275
+- R. Lippert: 275"
+A,I2,inference,False,False,True,True,0,1,,"SyntaxError: error at 1:111: expected one of Prefix not found, ['%'], ['-' | '0' ..= '9' | '\u{00B7}' | '\u{0300}'..='\u{036F}' |
+'\u{203F}'..='\u{2040}'], ['.'], [':'], ['A' ..= 'Z' | 'a' ..= 'z' | '\u{00C0}'..='\u{00D6}' | '\u{00D8}'..='\u{00F6}'
+| '\u{00F8}'..='\u{02FF}' | '\u{0370}'..='\u{037D}' | '\u{037F}'..='\u{1FFF}'
+| '\u{200C}'..='\u{200D}' | '\u{2070}'..='\u{218F}' | '\u{2C00}'..='\u{2FEF}'
+| '\u{3001}'..='\u{D7FF}' | '\u{F900}'..='\u{FDCF}' | '\u{FDF0}'..='\u{FFFD}'], ['\\'], ['_']",1,1113,77,How many persons are there in the graph?,PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT (COUNT(DISTINCT ?person) AS ?count) WHERE { ?person rdf:type sdm:Person },"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(?person) AS ?persons) WHERE {
+  ?person a sdm:Person .
+}
+",The query counts all distinct persons in the graph.,
+A,I3,inference,False,False,True,True,0,8,,"SyntaxError: error at 1:96: expected one of Prefix not found, ['%'], ['-' | '0' ..= '9' | '\u{00B7}' | '\u{0300}'..='\u{036F}' |
+'\u{203F}'..='\u{2040}'], ['.'], [':'], ['A' ..= 'Z' | 'a' ..= 'z' | '\u{00C0}'..='\u{00D6}' | '\u{00D8}'..='\u{00F6}'
+| '\u{00F8}'..='\u{02FF}' | '\u{0370}'..='\u{037D}' | '\u{037F}'..='\u{1FFF}'
+| '\u{200C}'..='\u{200D}' | '\u{2070}'..='\u{218F}' | '\u{2C00}'..='\u{2FEF}'
+| '\u{3001}'..='\u{D7FF}' | '\u{F900}'..='\u{FDCF}' | '\u{FDF0}'..='\u{FFFD}'], ['\\'], ['_']",1,1122,119,Who are the authors of the paper 'Attention is All you Need'? Give their names.,PREFIX sdm: <http://sdm_upc.org/ontology/> SELECT DISTINCT ?author_name WHERE { ?paper rdf:type sdm:Paper ; sdm:title 'Attention is All you Need' ; sdm:is_written ?author . ?author sdm:name ?author_name } LIMIT 100,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?name WHERE {
+  ?paper sdm:title ""Attention is All you Need"" ;
+         sdm:is_written ?author .
+  ?author sdm:name ?name .
+}
+",The query retrieves the names of the authors who wrote the paper with the title 'Attention is All you Need'.,
+A,U1,unanswerable,True,,False,False,0,,,,1,1117,37,Which organizations funded the research behind the paper 'Graph Attention Networks'?,,,The schema does not contain information about funding organizations for papers.,This graph cannot answer the question: The schema does not contain information about funding organizations for papers.
+A,U2,unanswerable,True,,False,False,0,,,,1,1120,30,Which university or company is the author 'D. Huson' affiliated with?,,,The knowledge graph does not contain information about author affiliations or organizations.,This graph cannot answer the question: The knowledge graph does not contain information about author affiliations or organizations.
+A,U3,unanswerable,True,,False,False,0,,,,1,1122,39,How many citations does the paper 'Attention is All you Need' have on Google Scholar?,,,The schema does not store citation counts from external platforms like Google Scholar.,This graph cannot answer the question: The schema does not store citation counts from external platforms like Google Scholar.
+B,L1,lookup,True,True,True,True,0,1,1,,2,1819,123,In which year was the paper 'node2vec: Scalable Feature Learning for Networks' written?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?year WHERE {
+  ?paper sdm:title ""node2vec: Scalable Feature Learning for Networks"" ;
+         sdm:year_written ?year .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?year WHERE {
+  ?paper sdm:title ""node2vec: Scalable Feature Learning for Networks"" ;
+         sdm:year_written ?year .
+}
+",Papers have a title and a year_written property.,The paper 'node2vec: Scalable Feature Learning for Networks' was written in 2016.
+B,L2,lookup,True,True,True,True,0,1,1,,2,1801,131,Which paper was written in 1899?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?paper sdm:year_written 1899 ;
+         sdm:title ?title .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?paper sdm:year_written 1899 ;
+         sdm:title ?title .
+}
+",Papers have a sdm:year_written literal property and a sdm:title property.,"Based on the row shown, the paper written in 1899 is ""Subjective bayesian methods for rule-based inference systems""."
+B,L3,lookup,True,True,True,True,0,1,1,,2,1819,129,"According to the graph, is the 'International Conference on Information and Knowledge Management' a workshop?","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?is_workshop WHERE {
+  ?conf sdm:conference_name ""International Conference on Information and Knowledge Management"" ;
+        sdm:is_workshop ?is_workshop .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?is_workshop WHERE {
+  ?conference sdm:conference_name ""International Conference on Information and Knowledge Management"" ;
+              sdm:is_workshop ?is_workshop .
+}
+",Conferences have a name and an sdm:is_workshop boolean property.,"According to the graph, the 'International Conference on Information and Knowledge Management' is a workshop (True)."
+B,J1,join,True,True,True,True,0,1,1,,2,1880,178,"In which journal, and in which volume year, was the paper 'How Powerful are Graph Neural Networks?' published?","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?journal_name ?volume_year WHERE {
+  ?paper sdm:title ""How Powerful are Graph Neural Networks?"" ;
+         sdm:published_in ?volume .
+  ?volume sdm:is_volume_of ?journal ;
+          sdm:volume_year ?volume_year .
+  ?journal sdm:journal_name ?journal_name .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?journal_name ?volume_year WHERE {
+  ?paper sdm:title ""How Powerful are Graph Neural Networks?"" ;
+         sdm:published_in ?volume .
+  ?volume sdm:volume_year ?volume_year ;
+          sdm:is_volume_of ?journal .
+  ?journal sdm:journal_name ?journal_name .
+}
+",Papers are published in journal volumes which belong to journals and have a volume year.,The paper 'How Powerful are Graph Neural Networks?' was published in the journal ArXiv in the volume year 2018.
+B,J2,join,True,True,True,True,0,6,6,,2,1936,269,What are the titles of the papers presented at the 2019 edition of the 'International Joint Conference on Artificial Intelligence'?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?conference sdm:conference_name ""International Joint Conference on Artificial Intelligence"" .
+  ?edition sdm:is_edition_of_conf ?conference ;
+           sdm:conference_year 2019 .
+  ?paper sdm:presentedAt ?edition ;
+         sdm:title ?title .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?conference sdm:conference_name ""International Joint Conference on Artificial Intelligence"" .
+  ?edition sdm:is_edition_of_conf ?conference ;
+           sdm:conference_year 2019 .
+  ?paper sdm:presentedAt ?edition ;
+         sdm:title ?title .
+}
+","Papers presented at an edition are linked with sdm:presentedAt, and editions are linked to conferences with sdm:is_edition_of_conf.","Based on the rows shown, the titles of the papers presented at the 2019 edition of the 'International Joint Conference on Artificial Intelligence' are:
+- AddGraph: Anomaly Detection in Dynamic Graph Using Attention-based Temporal GCN
+- Dynamic Hypergraph Neural Networks
+- Graph Convolutional Networks using Heat Kernel for Semi-supervised Learning
+- Graph WaveNet for Deep Spatial-Temporal Graph Modeling
+- Pre-training of Graph Augmented Transformers for Medication Recommendation
+- Topology Attack and Defense for Graph Neural Networks: An Optimization Perspective"
+B,J3,join,True,True,True,True,0,12,12,,2,1986,310,What are the titles of the papers that cite the paper 'Attention is All you Need'?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?citing_paper sdm:cites ?cited_paper ;
+                sdm:title ?title .
+  ?cited_paper sdm:title ""Attention is All you Need"" .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?cited sdm:title ""Attention is All you Need"" .
+  ?citing sdm:cites ?cited ;
+          sdm:title ?title .
+}
+",Papers citing another paper are linked via sdm:cites.,"Based on the rows shown, the titles of the papers that cite 'Attention is All you Need' are:
+* ASAP: Adaptive Structure Aware Pooling for Learning Hierarchical Graph Representations
+* Doc2EDAG: An End-to-End Document-level Framework for Chinese Financial Event Extraction
+* EvolveGCN: Evolving Graph Convolutional Networks for Dynamic Graphs
+* Heterogeneous Graph Attention Networks for Semi-supervised Short Text Classification
+* Knowledge-driven Encode, Retrieve, Paraphrase for Medical Image Report Generation
+* LSGCN: Long Short-Term Traffic Prediction with Graph Convolutional Networks
+* Large-Scale Learnable Graph Convolutional Networks
+* Learning the Graphical Structure of Electronic Health Records with Graph Convolutional Transformer
+* Matching the Blanks: Distributional Similarity for Relation Learning
+* Multi-View Joint Graph Representation Learning for Urban Region Embedding
+* Pre-training of Graph Augmented Transformers for Medication Recommendation
+* Sentence Centrality Revisited for Unsupervised Summarization"
+B,A1,aggregation,False,False,True,False,0,69,,,1,1644,61,"For each publication type (Conference, Workshop, Journal) and each year from 2000 to 2022, what is the average number of citations received by the papers of that type and year that are cited at least once? Use the conference edition year for conference and workshop papers and the volume year for journal papers, and give 0 when there are no such papers.",,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?typeLabel ?year (COALESCE(AVG(?edgeCount), 0) AS ?citesAvg)
+WHERE {
+  VALUES ?typeLabel { ""Workshop"" ""Conference"" ""Journal"" }
+  VALUES ?year {
+    2000 2001 2002 2003 2004 2005 2006 2007 2008
+    2009 2010 2011 2012 2013 2014 2015 2016 2017
+    2018 2019 2020 2021 2022
+  }
+  OPTIONAL
+  {
+    {SELECT ?node ?typeLabel ?year (COUNT(?other) AS ?edgeCount)
+    WHERE {
+      ?other sdm:cites ?node .
+      ?node sdm:presentedAt ?x .
+      ?x sdm:conference_year ?year .
+      ?x sdm:is_edition_of_conf ?conf .
+      ?conf sdm:is_workshop ?type .
+      BIND(IF(?type = true, ""Workshop"", ""Conference"") AS ?typeLabel)
+    }
+    GROUP BY ?node ?typeLabel ?year}
+    UNION
+    {SELECT ?node ?typeLabel ?year (COUNT(?other) AS ?edgeCount)
+    WHERE {
+      ?other sdm:cites ?node .
+      ?node sdm:published_in ?x .
+      ?x sdm:volume_year ?year .
+      ?x sdm:is_volume_of ?conf .
+      BIND(""Journal"" AS ?typeLabel)
+    }
+    GROUP BY ?node ?typeLabel ?year}
+  }
+}
+GROUP BY ?typeLabel ?year
+ORDER BY ?year
+",The schema does not provide a direct way to compute the total citations received per paper in a single query with average grouping by dynamic publication types and years with a default of 0.,This graph cannot answer the question: The schema does not provide a direct way to compute the total citations received per paper in a single query with average grouping by dynamic publication types and years with a default of 0.
+B,A2,aggregation,False,True,True,True,0,15,15,,2,2166,493,"For each keyword, which paper about that keyword is cited the most? Give the 15 keyword-paper pairs with the highest citation counts: the keyword name, the paper title and the number of citations.","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?keyword_name ?title (COUNT(?citation) AS ?citations) WHERE {
+  ?keyword sdm:keyword_name ?keyword_name .
+  ?paper sdm:is_about ?keyword ;
+         sdm:title ?title .
+  OPTIONAL { ?citation sdm:cites ?paper . }
+}
+GROUP BY ?keyword ?keyword_name ?paper ?title
+ORDER BY DESC(?citations)
+LIMIT 15","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?keyword_name ?paper_title ?citationCount
+WHERE {
+  {
+    # Subquery 1: citation count per (paper, keyword)
+    SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?citationCount)
+    WHERE {
+      ?paper sdm:is_about ?keyword .
+      ?citingPaper sdm:cites ?paper .
+    }
+    GROUP BY ?keyword ?paper
+  }
+  {
+    # Subquery 2: maximum citation count per keyword
+    SELECT ?keyword (MAX(?count) AS ?maxCount)
+    WHERE {
+      SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?count)
+      WHERE {
+        ?paper sdm:is_about ?keyword .
+        ?citingPaper sdm:cites ?paper .
+      }
+      GROUP BY ?keyword ?paper
+    }
+    GROUP BY ?keyword
+  }
+  FILTER(?citationCount = ?maxCount)
+  ?paper sdm:title ?paper_title .
+  ?keyword sdm:keyword_name ?keyword_name .
+}
+ORDER BY DESC(?citationCount)
+LIMIT 15
+","We can find papers about keywords, count their citations using sdm:cites, and rank the pairs.","Based on the rows shown, here are the 15 keyword-paper pairs with the highest citation counts:
+
+* automation: ""Semi-Supervised Classification with Graph Convolutional Networks"" (32 citations)
+* machinelearning: ""Graph Attention Networks"" (30 citations)
+* virtualreality: ""Graph Attention Networks"" (30 citations)
+* analytics: ""Graph Attention Networks"" (30 citations)
+* blockchain: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* NLP: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* computervision: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* datamining: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* dataprocessing: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* computervision: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* quantumcomputing: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* datamining: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* NLP: ""Inductive Representation Learning on Large Graphs"" (18 citations)
+* cloudcomputing: ""How Powerful are Graph Neural Networks?"" (17 citations)
+* computervision: ""How Powerful are Graph Neural Networks?"" (17 citations)"
+B,A3,aggregation,True,True,True,True,0,1,1,,2,1784,112,How many reviews were rejected (not accepted)?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(?review) AS ?count) WHERE {
+  ?review sdm:is_accepted false .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(?review) AS ?rejected) WHERE {
+  ?review sdm:is_accepted false .
+}
+",Reviews have an sdm:is_accepted property which can be false for rejected reviews.,"Based on the result rows, 4345 reviews were rejected (not accepted)."
+B,I1,inference,True,True,True,True,0,10,10,,2,1994,310,Which 10 authors have the largest number of distinct co-authors? Give each author's name and their number of co-authors.,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?author_name (COUNT(DISTINCT ?coauthor) AS ?coauthor_count) WHERE {
+  ?paper sdm:is_written ?author .
+  ?paper sdm:is_written ?coauthor .
+  FILTER(?author != ?coauthor)
+  ?author sdm:name ?author_name .
+}
+GROUP BY ?author ?author_name
+ORDER BY DESC(?coauthor_count)
+LIMIT 10","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?author_name (COUNT(DISTINCT ?coauthor) AS ?collaborators)
+WHERE {
+  ?paper sdm:is_written ?author, ?coauthor .
+  ?author sdm:name ?author_name
+  FILTER(?author != ?coauthor)
+}
+GROUP BY ?author ?author_name
+ORDER BY DESC(?collaborators)
+LIMIT 10
+","Authors are linked to papers via sdm:is_written, allowing us to find co-authors on the same paper while excluding self-matches.","Based on the rows shown, here are the 10 authors with the largest number of distinct co-authors and their counts:
+
+* D. Huson: 283
+* A. Gabrielian: 282
+* M. Campbell: 282
+* V. Bafna: 281
+* Ming-Ming Cheng: 279
+* S. Istrail: 278
+* R. Roberts: 277
+* B. Walenz: 275
+* K. Reinert: 275
+* R. Lippert: 275"
+B,I2,inference,True,True,True,True,0,1,1,,2,1786,107,How many persons are there in the graph?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(DISTINCT ?person) AS ?count) WHERE {
+  ?person a sdm:Person .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(?person) AS ?persons) WHERE {
+  ?person a sdm:Person .
+}
+",Count all instances of the sdm:Person class.,"Based on the query results, there are 20443 persons in the graph."
+B,I3,inference,True,True,True,True,0,8,8,,2,1863,184,Who are the authors of the paper 'Attention is All you Need'? Give their names.,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT DISTINCT ?name WHERE {
+  ?paper sdm:title ""Attention is All you Need"" ;
+         sdm:is_written ?author .
+  ?author sdm:name ?name .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?name WHERE {
+  ?paper sdm:title ""Attention is All you Need"" ;
+         sdm:is_written ?author .
+  ?author sdm:name ?name .
+}
+",Papers are linked to authors via sdm:is_written and authors have names via sdm:name.,"The authors of the paper 'Attention is All you Need' are:
+
+* Aidan N. Gomez
+* Ashish Vaswani
+* Illia Polosukhin
+* Jakob Uszkoreit
+* Llion Jones
+* Lukasz Kaiser
+* Niki Parmar
+* Noam M. Shazeer"
+B,U1,unanswerable,True,,False,False,0,,,,1,1578,41,Which organizations funded the research behind the paper 'Graph Attention Networks'?,,,The schema does not contain any classes or properties to represent funding organizations for papers.,This graph cannot answer the question: The schema does not contain any classes or properties to represent funding organizations for papers.
+B,U2,unanswerable,True,,False,False,0,,,,1,1581,36,Which university or company is the author 'D. Huson' affiliated with?,,,The knowledge graph does not store affiliation information for authors.,This graph cannot answer the question: The knowledge graph does not store affiliation information for authors.
+B,U3,unanswerable,True,,False,False,0,,,,1,1583,46,How many citations does the paper 'Attention is All you Need' have on Google Scholar?,,,"The graph does not store Google Scholar citation counts, only citations between papers via sdm:cites.","This graph cannot answer the question: The graph does not store Google Scholar citation counts, only citations between papers via sdm:cites."
+C,L1,lookup,True,True,True,True,0,1,1,,2,1819,123,In which year was the paper 'node2vec: Scalable Feature Learning for Networks' written?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?year WHERE {
+  ?paper sdm:title ""node2vec: Scalable Feature Learning for Networks"" ;
+         sdm:year_written ?year .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?year WHERE {
+  ?paper sdm:title ""node2vec: Scalable Feature Learning for Networks"" ;
+         sdm:year_written ?year .
+}
+",Papers have a title and a year_written property.,The paper 'node2vec: Scalable Feature Learning for Networks' was written in 2016.
+C,L2,lookup,True,True,True,True,0,1,1,,2,1801,131,Which paper was written in 1899?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?paper sdm:year_written 1899 ;
+         sdm:title ?title .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?paper sdm:year_written 1899 ;
+         sdm:title ?title .
+}
+",Papers have a sdm:year_written literal property and a sdm:title property.,"Based on the row shown, the paper written in 1899 is ""Subjective bayesian methods for rule-based inference systems""."
+C,L3,lookup,True,True,True,True,0,1,1,,2,1819,129,"According to the graph, is the 'International Conference on Information and Knowledge Management' a workshop?","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?is_workshop WHERE {
+  ?conf sdm:conference_name ""International Conference on Information and Knowledge Management"" ;
+        sdm:is_workshop ?is_workshop .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?is_workshop WHERE {
+  ?conference sdm:conference_name ""International Conference on Information and Knowledge Management"" ;
+              sdm:is_workshop ?is_workshop .
+}
+",Conferences have a name and an sdm:is_workshop boolean property.,"According to the graph, the 'International Conference on Information and Knowledge Management' is a workshop (True)."
+C,J1,join,True,True,True,True,0,1,1,,2,1880,178,"In which journal, and in which volume year, was the paper 'How Powerful are Graph Neural Networks?' published?","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?journal_name ?volume_year WHERE {
+  ?paper sdm:title ""How Powerful are Graph Neural Networks?"" ;
+         sdm:published_in ?volume .
+  ?volume sdm:is_volume_of ?journal ;
+          sdm:volume_year ?volume_year .
+  ?journal sdm:journal_name ?journal_name .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?journal_name ?volume_year WHERE {
+  ?paper sdm:title ""How Powerful are Graph Neural Networks?"" ;
+         sdm:published_in ?volume .
+  ?volume sdm:volume_year ?volume_year ;
+          sdm:is_volume_of ?journal .
+  ?journal sdm:journal_name ?journal_name .
+}
+",Papers are published in journal volumes which belong to journals and have a volume year.,The paper 'How Powerful are Graph Neural Networks?' was published in the journal ArXiv in the volume year 2018.
+C,J2,join,True,True,True,True,0,6,6,,2,1936,269,What are the titles of the papers presented at the 2019 edition of the 'International Joint Conference on Artificial Intelligence'?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?conference sdm:conference_name ""International Joint Conference on Artificial Intelligence"" .
+  ?edition sdm:is_edition_of_conf ?conference ;
+           sdm:conference_year 2019 .
+  ?paper sdm:presentedAt ?edition ;
+         sdm:title ?title .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?conference sdm:conference_name ""International Joint Conference on Artificial Intelligence"" .
+  ?edition sdm:is_edition_of_conf ?conference ;
+           sdm:conference_year 2019 .
+  ?paper sdm:presentedAt ?edition ;
+         sdm:title ?title .
+}
+","Papers presented at an edition are linked with sdm:presentedAt, and editions are linked to conferences with sdm:is_edition_of_conf.","Based on the rows shown, the titles of the papers presented at the 2019 edition of the 'International Joint Conference on Artificial Intelligence' are:
+- AddGraph: Anomaly Detection in Dynamic Graph Using Attention-based Temporal GCN
+- Dynamic Hypergraph Neural Networks
+- Graph Convolutional Networks using Heat Kernel for Semi-supervised Learning
+- Graph WaveNet for Deep Spatial-Temporal Graph Modeling
+- Pre-training of Graph Augmented Transformers for Medication Recommendation
+- Topology Attack and Defense for Graph Neural Networks: An Optimization Perspective"
+C,J3,join,True,True,True,True,0,12,12,,2,1986,310,What are the titles of the papers that cite the paper 'Attention is All you Need'?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?citing_paper sdm:cites ?cited_paper ;
+                sdm:title ?title .
+  ?cited_paper sdm:title ""Attention is All you Need"" .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?title WHERE {
+  ?cited sdm:title ""Attention is All you Need"" .
+  ?citing sdm:cites ?cited ;
+          sdm:title ?title .
+}
+",Papers citing another paper are linked via sdm:cites.,"Based on the rows shown, the titles of the papers that cite 'Attention is All you Need' are:
+* ASAP: Adaptive Structure Aware Pooling for Learning Hierarchical Graph Representations
+* Doc2EDAG: An End-to-End Document-level Framework for Chinese Financial Event Extraction
+* EvolveGCN: Evolving Graph Convolutional Networks for Dynamic Graphs
+* Heterogeneous Graph Attention Networks for Semi-supervised Short Text Classification
+* Knowledge-driven Encode, Retrieve, Paraphrase for Medical Image Report Generation
+* LSGCN: Long Short-Term Traffic Prediction with Graph Convolutional Networks
+* Large-Scale Learnable Graph Convolutional Networks
+* Learning the Graphical Structure of Electronic Health Records with Graph Convolutional Transformer
+* Matching the Blanks: Distributional Similarity for Relation Learning
+* Multi-View Joint Graph Representation Learning for Urban Region Embedding
+* Pre-training of Graph Augmented Transformers for Medication Recommendation
+* Sentence Centrality Revisited for Unsupervised Summarization"
+C,A1,aggregation,False,False,True,False,0,69,,,1,1644,61,"For each publication type (Conference, Workshop, Journal) and each year from 2000 to 2022, what is the average number of citations received by the papers of that type and year that are cited at least once? Use the conference edition year for conference and workshop papers and the volume year for journal papers, and give 0 when there are no such papers.",,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?typeLabel ?year (COALESCE(AVG(?edgeCount), 0) AS ?citesAvg)
+WHERE {
+  VALUES ?typeLabel { ""Workshop"" ""Conference"" ""Journal"" }
+  VALUES ?year {
+    2000 2001 2002 2003 2004 2005 2006 2007 2008
+    2009 2010 2011 2012 2013 2014 2015 2016 2017
+    2018 2019 2020 2021 2022
+  }
+  OPTIONAL
+  {
+    {SELECT ?node ?typeLabel ?year (COUNT(?other) AS ?edgeCount)
+    WHERE {
+      ?other sdm:cites ?node .
+      ?node sdm:presentedAt ?x .
+      ?x sdm:conference_year ?year .
+      ?x sdm:is_edition_of_conf ?conf .
+      ?conf sdm:is_workshop ?type .
+      BIND(IF(?type = true, ""Workshop"", ""Conference"") AS ?typeLabel)
+    }
+    GROUP BY ?node ?typeLabel ?year}
+    UNION
+    {SELECT ?node ?typeLabel ?year (COUNT(?other) AS ?edgeCount)
+    WHERE {
+      ?other sdm:cites ?node .
+      ?node sdm:published_in ?x .
+      ?x sdm:volume_year ?year .
+      ?x sdm:is_volume_of ?conf .
+      BIND(""Journal"" AS ?typeLabel)
+    }
+    GROUP BY ?node ?typeLabel ?year}
+  }
+}
+GROUP BY ?typeLabel ?year
+ORDER BY ?year
+",The schema does not provide a direct way to compute the total citations received per paper in a single query with average grouping by dynamic publication types and years with a default of 0.,This graph cannot answer the question: The schema does not provide a direct way to compute the total citations received per paper in a single query with average grouping by dynamic publication types and years with a default of 0.
+C,A2,aggregation,False,True,True,True,0,15,15,,2,2166,493,"For each keyword, which paper about that keyword is cited the most? Give the 15 keyword-paper pairs with the highest citation counts: the keyword name, the paper title and the number of citations.","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?keyword_name ?title (COUNT(?citation) AS ?citations) WHERE {
+  ?keyword sdm:keyword_name ?keyword_name .
+  ?paper sdm:is_about ?keyword ;
+         sdm:title ?title .
+  OPTIONAL { ?citation sdm:cites ?paper . }
+}
+GROUP BY ?keyword ?keyword_name ?paper ?title
+ORDER BY DESC(?citations)
+LIMIT 15","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?keyword_name ?paper_title ?citationCount
+WHERE {
+  {
+    # Subquery 1: citation count per (paper, keyword)
+    SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?citationCount)
+    WHERE {
+      ?paper sdm:is_about ?keyword .
+      ?citingPaper sdm:cites ?paper .
+    }
+    GROUP BY ?keyword ?paper
+  }
+  {
+    # Subquery 2: maximum citation count per keyword
+    SELECT ?keyword (MAX(?count) AS ?maxCount)
+    WHERE {
+      SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?count)
+      WHERE {
+        ?paper sdm:is_about ?keyword .
+        ?citingPaper sdm:cites ?paper .
+      }
+      GROUP BY ?keyword ?paper
+    }
+    GROUP BY ?keyword
+  }
+  FILTER(?citationCount = ?maxCount)
+  ?paper sdm:title ?paper_title .
+  ?keyword sdm:keyword_name ?keyword_name .
+}
+ORDER BY DESC(?citationCount)
+LIMIT 15
+","We can find papers about keywords, count their citations using sdm:cites, and rank the pairs.","Based on the rows shown, here are the 15 keyword-paper pairs with the highest citation counts:
+
+* automation: ""Semi-Supervised Classification with Graph Convolutional Networks"" (32 citations)
+* machinelearning: ""Graph Attention Networks"" (30 citations)
+* virtualreality: ""Graph Attention Networks"" (30 citations)
+* analytics: ""Graph Attention Networks"" (30 citations)
+* blockchain: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* NLP: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* computervision: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* datamining: ""Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering"" (23 citations)
+* dataprocessing: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* computervision: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* quantumcomputing: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* datamining: ""node2vec: Scalable Feature Learning for Networks"" (18 citations)
+* NLP: ""Inductive Representation Learning on Large Graphs"" (18 citations)
+* cloudcomputing: ""How Powerful are Graph Neural Networks?"" (17 citations)
+* computervision: ""How Powerful are Graph Neural Networks?"" (17 citations)"
+C,A3,aggregation,True,True,True,True,0,1,1,,2,1784,112,How many reviews were rejected (not accepted)?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(?review) AS ?count) WHERE {
+  ?review sdm:is_accepted false .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(?review) AS ?rejected) WHERE {
+  ?review sdm:is_accepted false .
+}
+",Reviews have an sdm:is_accepted property which can be false for rejected reviews.,"Based on the result rows, 4345 reviews were rejected (not accepted)."
+C,I1,inference,True,True,True,True,0,10,10,,2,1994,310,Which 10 authors have the largest number of distinct co-authors? Give each author's name and their number of co-authors.,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?author_name (COUNT(DISTINCT ?coauthor) AS ?coauthor_count) WHERE {
+  ?paper sdm:is_written ?author .
+  ?paper sdm:is_written ?coauthor .
+  FILTER(?author != ?coauthor)
+  ?author sdm:name ?author_name .
+}
+GROUP BY ?author ?author_name
+ORDER BY DESC(?coauthor_count)
+LIMIT 10","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?author_name (COUNT(DISTINCT ?coauthor) AS ?collaborators)
+WHERE {
+  ?paper sdm:is_written ?author, ?coauthor .
+  ?author sdm:name ?author_name
+  FILTER(?author != ?coauthor)
+}
+GROUP BY ?author ?author_name
+ORDER BY DESC(?collaborators)
+LIMIT 10
+","Authors are linked to papers via sdm:is_written, allowing us to find co-authors on the same paper while excluding self-matches.","Based on the rows shown, here are the 10 authors with the largest number of distinct co-authors and their counts:
+
+* D. Huson: 283
+* A. Gabrielian: 282
+* M. Campbell: 282
+* V. Bafna: 281
+* Ming-Ming Cheng: 279
+* S. Istrail: 278
+* R. Roberts: 277
+* B. Walenz: 275
+* K. Reinert: 275
+* R. Lippert: 275"
+C,I2,inference,True,True,True,True,0,1,1,,2,1786,107,How many persons are there in the graph?,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(DISTINCT ?person) AS ?count) WHERE {
+  ?person a sdm:Person .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT (COUNT(?person) AS ?persons) WHERE {
+  ?person a sdm:Person .
+}
+",Count all instances of the sdm:Person class.,"Based on the query results, there are 20443 persons in the graph."
+C,I3,inference,True,True,True,True,0,8,8,,2,1863,184,Who are the authors of the paper 'Attention is All you Need'? Give their names.,"PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT DISTINCT ?name WHERE {
+  ?paper sdm:title ""Attention is All you Need"" ;
+         sdm:is_written ?author .
+  ?author sdm:name ?name .
+}
+LIMIT 100","PREFIX sdm: <http://sdm_upc.org/ontology/>
+SELECT ?name WHERE {
+  ?paper sdm:title ""Attention is All you Need"" ;
+         sdm:is_written ?author .
+  ?author sdm:name ?name .
+}
+",Papers are linked to authors via sdm:is_written and authors have names via sdm:name.,"The authors of the paper 'Attention is All you Need' are:
+
+* Aidan N. Gomez
+* Ashish Vaswani
+* Illia Polosukhin
+* Jakob Uszkoreit
+* Llion Jones
+* Lukasz Kaiser
+* Niki Parmar
+* Noam M. Shazeer"
+C,U1,unanswerable,True,,False,False,0,,,,1,1578,41,Which organizations funded the research behind the paper 'Graph Attention Networks'?,,,The schema does not contain any classes or properties to represent funding organizations for papers.,This graph cannot answer the question: The schema does not contain any classes or properties to represent funding organizations for papers.
+C,U2,unanswerable,True,,False,False,0,,,,1,1581,36,Which university or company is the author 'D. Huson' affiliated with?,,,The knowledge graph does not store affiliation information for authors.,This graph cannot answer the question: The knowledge graph does not store affiliation information for authors.
+C,U3,unanswerable,True,,False,False,0,,,,1,1583,46,How many citations does the paper 'Attention is All you Need' have on Google Scholar?,,,"The graph does not store Google Scholar citation counts, only citations between papers via sdm:cites.","This graph cannot answer the question: The graph does not store Google Scholar citation counts, only citations between papers via sdm:cites."

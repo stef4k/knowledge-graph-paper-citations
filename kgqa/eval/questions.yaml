@@ -1,0 +1,238 @@
+# kgqa test set: 15 hand-written questions, 3 per category.
+#   categories: lookup, join, aggregation, inference, unanswerable
+#   gold_sparql: the reference query (null for unanswerable items: the expected reply is answerable=false)
+#   verified: set to true ONLY after checking the question, the gold query and its results by hand.
+#             The evaluation skips items with verified: false.
+# None of these questions are among the 4 worked examples in kgqa/prompts.py.
+
+- id: L1
+  category: lookup
+  question: "In which year was the paper 'node2vec: Scalable Feature Learning for Networks' written?"
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?year WHERE {
+      ?paper sdm:title "node2vec: Scalable Feature Learning for Networks" ;
+             sdm:year_written ?year .
+    }
+  verified: true
+  notes: "correct answer"
+
+- id: L2
+  category: lookup
+  question: "Which paper was written in 1899?"
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?title WHERE {
+      ?paper sdm:year_written 1899 ;
+             sdm:title ?title .
+    }
+  verified: true
+  notes: "The answer is correct based on the dataset."
+
+- id: L3
+  category: lookup
+  question: "According to the graph, is the 'International Conference on Information and Knowledge Management' a workshop?"
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?is_workshop WHERE {
+      ?conference sdm:conference_name "International Conference on Information and Knowledge Management" ;
+                  sdm:is_workshop ?is_workshop .
+    }
+  verified: true
+  notes: "Correct based on schema. The is_workshop flags look synthetic (CIKM, ICCV and ACL are marked as workshops). The data says true; an answer from world knowledge would say no."
+
+- id: J1
+  category: join
+  question: "In which journal, and in which volume year, was the paper 'How Powerful are Graph Neural Networks?' published?"
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?journal_name ?volume_year WHERE {
+      ?paper sdm:title "How Powerful are Graph Neural Networks?" ;
+             sdm:published_in ?volume .
+      ?volume sdm:volume_year ?volume_year ;
+              sdm:is_volume_of ?journal .
+      ?journal sdm:journal_name ?journal_name .
+    }
+  verified: true
+  notes: "Correct answer, the only thing is that in the TBOX volume is called JournalVolume. Paper -> volume -> journal (2 hops)."
+
+- id: J2
+  category: join
+  question: "What are the titles of the papers presented at the 2019 edition of the 'International Joint Conference on Artificial Intelligence'?"
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?title WHERE {
+      ?conference sdm:conference_name "International Joint Conference on Artificial Intelligence" .
+      ?edition sdm:is_edition_of_conf ?conference ;
+               sdm:conference_year 2019 .
+      ?paper sdm:presentedAt ?edition ;
+             sdm:title ?title .
+    }
+  verified: true
+  notes: "Conference -> edition (year filter) -> papers."
+
+- id: J3
+  category: join
+  question: "What are the titles of the papers that cite the paper 'Attention is All you Need'?"
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?title WHERE {
+      ?cited sdm:title "Attention is All you Need" .
+      ?citing sdm:cites ?cited ;
+              sdm:title ?title .
+    }
+  verified: true
+  notes: "Reverse direction of sdm:cites."
+
+- id: A1
+  category: aggregation
+  question: "For each publication type (Conference, Workshop, Journal) and each year from 2000 to 2022, what is the average number of citations received by the papers of that type and year that are cited at least once? Use the conference edition year for conference and workshop papers and the volume year for journal papers, and give 0 when there are no such papers."
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?typeLabel ?year (COALESCE(AVG(?edgeCount), 0) AS ?citesAvg)
+    WHERE {
+      VALUES ?typeLabel { "Workshop" "Conference" "Journal" }
+      VALUES ?year {
+        2000 2001 2002 2003 2004 2005 2006 2007 2008
+        2009 2010 2011 2012 2013 2014 2015 2016 2017
+        2018 2019 2020 2021 2022
+      }
+      OPTIONAL
+      {
+        {SELECT ?node ?typeLabel ?year (COUNT(?other) AS ?edgeCount)
+        WHERE {
+          ?other sdm:cites ?node .
+          ?node sdm:presentedAt ?x .
+          ?x sdm:conference_year ?year .
+          ?x sdm:is_edition_of_conf ?conf .
+          ?conf sdm:is_workshop ?type .
+          BIND(IF(?type = true, "Workshop", "Conference") AS ?typeLabel)
+        }
+        GROUP BY ?node ?typeLabel ?year}
+        UNION
+        {SELECT ?node ?typeLabel ?year (COUNT(?other) AS ?edgeCount)
+        WHERE {
+          ?other sdm:cites ?node .
+          ?node sdm:published_in ?x .
+          ?x sdm:volume_year ?year .
+          ?x sdm:is_volume_of ?conf .
+          BIND("Journal" AS ?typeLabel)
+        }
+        GROUP BY ?node ?typeLabel ?year}
+      }
+    }
+    GROUP BY ?typeLabel ?year
+    ORDER BY ?year
+  verified: true
+  notes: "Report query 1 (queries/query1.txt), prefix dbo: renamed to sdm: (same namespace). Hard: 69 rows, exact definition needed."
+
+- id: A2
+  category: aggregation
+  question: "For each keyword, which paper about that keyword is cited the most? Give the 15 keyword-paper pairs with the highest citation counts: the keyword name, the paper title and the number of citations."
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?keyword_name ?paper_title ?citationCount
+    WHERE {
+      {
+        # Subquery 1: citation count per (paper, keyword)
+        SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?citationCount)
+        WHERE {
+          ?paper sdm:is_about ?keyword .
+          ?citingPaper sdm:cites ?paper .
+        }
+        GROUP BY ?keyword ?paper
+      }
+      {
+        # Subquery 2: maximum citation count per keyword
+        SELECT ?keyword (MAX(?count) AS ?maxCount)
+        WHERE {
+          SELECT ?keyword ?paper (COUNT(?citingPaper) AS ?count)
+          WHERE {
+            ?paper sdm:is_about ?keyword .
+            ?citingPaper sdm:cites ?paper .
+          }
+          GROUP BY ?keyword ?paper
+        }
+        GROUP BY ?keyword
+      }
+      FILTER(?citationCount = ?maxCount)
+      ?paper sdm:title ?paper_title .
+      ?keyword sdm:keyword_name ?keyword_name .
+    }
+    ORDER BY DESC(?citationCount)
+    LIMIT 15
+  verified: true
+  notes: "Report query 3 (queries/query3.txt). No tie at the LIMIT 15 cut-off (15th value 12, 16th value 11)."
+
+- id: A3
+  category: aggregation
+  question: "How many reviews were rejected (not accepted)?"
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT (COUNT(?review) AS ?rejected) WHERE {
+      ?review sdm:is_accepted false .
+    }
+  verified: true
+  notes: ""
+
+- id: I1
+  category: inference
+  question: "Which 10 authors have the largest number of distinct co-authors? Give each author's name and their number of co-authors."
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?author_name (COUNT(DISTINCT ?coauthor) AS ?collaborators)
+    WHERE {
+      ?paper sdm:is_written ?author, ?coauthor .
+      ?author sdm:name ?author_name
+      FILTER(?author != ?coauthor)
+    }
+    GROUP BY ?author ?author_name
+    ORDER BY DESC(?collaborators)
+    LIMIT 10
+  verified: true
+  notes: "Correct answer. Top authors are mostly from one 274-author paper."
+
+- id: I2
+  category: inference
+  question: "How many persons are there in the graph?"
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT (COUNT(?person) AS ?persons) WHERE {
+      ?person a sdm:Person .
+    }
+  verified: true
+  notes: "No resource is typed Person explicitly: authors, reviewers, chairs and editors are persons via subClassOf (and domain/range)."
+
+- id: I3
+  category: inference
+  question: "Who are the authors of the paper 'Attention is All you Need'? Give their names."
+  gold_sparql: |
+    PREFIX sdm: <http://sdm_upc.org/ontology/>
+    SELECT ?name WHERE {
+      ?paper sdm:title "Attention is All you Need" ;
+             sdm:is_written ?author .
+      ?author sdm:name ?name .
+    }
+  verified: true
+  notes: "Correct answer. The corresponding author is linked only by is_corresponding_author; is_written includes it only through subPropertyOf."
+
+- id: U1
+  category: unanswerable
+  question: "Which organizations funded the research behind the paper 'Graph Attention Networks'?"
+  gold_sparql: null
+  verified: true
+  notes: "No funding data in the graph."
+
+- id: U2
+  category: unanswerable
+  question: "Which university or company is the author 'D. Huson' affiliated with?"
+  gold_sparql: null
+  verified: true
+  notes: "Affiliations exist in the raw data (data/affiliations_relationships.csv) but were never loaded into the graph."
+
+- id: U3
+  category: unanswerable
+  question: "How many citations does the paper 'Attention is All you Need' have on Google Scholar?"
+  gold_sparql: null
+  verified: true
+  notes: "The graph only has citations between its own papers (sdm:cites), not external citation counts. A model might wrongly count sdm:cites."
